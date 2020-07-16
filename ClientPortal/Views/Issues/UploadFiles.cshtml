@@ -1,0 +1,65 @@
+﻿
+@model ClientPortal.ViewModels.IssueListViewModel
+@{
+    Layout = null;
+}
+@foreach (var item in Model.Attachments)
+{
+
+    <a href=" @Url.Content("~/taskItUploads/" + System.IO.Path.GetFileName(item.originalFileName))">@System.IO.Path.GetFileName(item.originalFileName)</a>
+    <br />
+}
+<br />
+<br />
+<br />
+<label for="file-upload" id="" class="custom-file-upload">
+    Upload New Attachments
+</label>
+<br />
+<input type="file" id="FileUpload1" />
+<input type="button" id="btnUpload" value="Upload Files" />
+
+<br />
+<label id="lblSuccess"></label>
+<br />
+<script>
+    $(document).ready(function () {
+        $('#btnUpload').click(function () {
+
+
+            if (window.FormData !== undefined) {
+
+                var fileUpload = $("#FileUpload1").get(0);
+                var files = fileUpload.files;
+                var fileData = new FormData();
+
+
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+
+
+
+                $.ajax({
+                    type: "POST",
+                    url: '/Issues/UploadFiles/?issueID=' +@Session["issueID"],
+
+                    contentType: false,
+                    processData: false,
+                    data: fileData,
+                    success: function (response) {
+                        $("#FileUpload1").hide();
+                        $("#btnUpload").hide();
+                        $("#uploadedFiles").html(response);
+                        $("btnNewUpload").show();
+                    }
+
+
+                });
+            } else {
+                alert("FormData is not supported.");
+            }
+        });
+    });
+
+</script>

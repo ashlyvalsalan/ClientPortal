@@ -1,0 +1,91 @@
+﻿.field-validation-error {
+    color: crimson;
+}
+
+html, body {
+   
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    font-family: 'Numans', sans-serif;
+    overflow: scroll;
+}
+
+.container {
+    height: 100%;
+    align-content: center;
+}
+
+.card {
+    height: 370px;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 400px;
+    background-color: rgba(0,0,0,0.5) !important;
+}
+.index-heading
+{
+    font-size:larger;
+    color:aqua;
+}
+.card-header h3 {
+    color: white;
+}
+.input-group-prepend{
+    height:40px;
+    padding-top:10px;
+}
+.input-group-prepend span {
+    width: 50px;
+    
+    background-color: #FFC312;
+    color: black;
+    border: 0 !important;
+}
+
+input:focus {
+    outline: 0 0 0 0 !important;
+    box-shadow: 0 0 0 0 !important;
+}
+
+.login_btn:hover {
+    color: black;
+    background-color: white;
+}
+
+ul{
+    color:ghostwhite;
+    padding-left:10px;
+    padding-top:10px;
+    
+}
+
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    padding-left:10px;
+}
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-color: #f1f1f1;
+    width:1150px;
+   
+}
+
+    
+input[type=text], select {
+    width: 100%;
+    padding-top:15px;
+    padding-bottom:30px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.partial-data {
+    padding-top:20px;
+}

@@ -1,0 +1,249 @@
+﻿@model ClientPortal.ViewModels.IssueListViewModel
+
+@{
+    ViewBag.Title = "Details";
+   
+    
+        var personlist = (ViewBag.personlist as List<Streemline3_1Poco.tblPerson>);
+    
+
+
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<body>
+    <div class="tab">
+        <h2>@ViewBag.issuetitle :Issue Details[@ViewBag.statustitle]</h2>
+    </div>
+    <div>
+
+        <hr />
+        <dl class="dl-horizontal">
+            @using (Html.BeginForm("AddNote", "Issues", FormMethod.Post))
+            {
+                <dt>
+                    <p>Issue Decription</p>
+                </dt>
+
+                <dd>
+                    @ViewBag.issueDescription
+                </dd>
+
+                @Html.HiddenFor(m => m.Note.objectID, new { @Value = @Session["issueId"] })
+
+                <h4>Add Comments</h4>
+
+                @Html.TextAreaFor(m => m.Note.noteText, new { @class = "form-control" })
+                <label id="lblNewcomment"></label>
+                <br />
+
+                <input type="submit" id="addComments" value="Add" />
+                <br />
+            }
+            <table class="table">
+                <tr>
+                    <th>Date</th>
+                    <th>Note</th>
+                    <th>By</th>
+
+
+                </tr>
+
+
+                @foreach (var item in Model.Notes)
+                {
+
+                    var person = personlist.FirstOrDefault(x => x.PersonID == item.createdByID);
+
+
+                    <tr>
+                        @if (person != null)
+                        {
+                            <td>
+
+                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.createdDate))
+
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.noteText)
+                            </td>
+                            <td>
+
+                                @person.FirstName @person.LastName
+
+
+                            </td>
+                        }
+                    </tr>
+
+                }
+
+            </table>
+            @*
+                @Html.ActionLink("Return to list", "solutionIssues", "Issues", new { ID = @Session["issueId"] }, null)
+            *@
+
+            <label>
+                Attachments
+            </label>
+            <p id="uploadedFiles">
+
+                @foreach (var item in Model.Attachments)
+                {
+
+                    <a href=" @Url.Content("~/taskItUploads/" + System.IO.Path.GetFileName(item.originalFileName))">@System.IO.Path.GetFileName(item.originalFileName)</a>
+                    <br />
+                }
+                <br />
+                <br />
+                <br />
+                <label for="file-upload" id="" class="custom-file-upload">
+                    Upload New Attachments
+                </label>
+                <br />
+                <input type="file" id="FileUpload1" />
+                <input type="button" id="btnUpload" value="Upload Files" />
+
+                <br />
+                <label id="lblSuccess"></label>
+                <br />
+            </p>
+
+
+        </dl>
+        <br />
+        @if (Convert.ToInt32(@Session["statusID"]) == 11)
+        {
+            <input type="button" id="btnReopenIssue" value="Reopen this Issue" />
+        }
+        else if (Convert.ToInt32(@Session["statusID"]) == 13)
+        {
+
+            <p>
+                <input type="button" id="btnReturn" value="Return to S7" />
+                <input type="button" id="btnMarkComplete" value="Mark complete" />
+            </p>
+        }
+        else if (Convert.ToInt32(@Session["statusID"]) == 14)
+        {
+            <p>
+                <input type="button" id="btnReturn" value="Return to S7" />
+                <input type="button" id="btnMarkComplete" value="Mark complete" />
+
+            </p>
+        }
+        else
+        {
+            <p></p>
+        }
+        <p>Created date</p>
+        @ViewBag.issueCreatedDate
+        <br /><br />
+        <p>Modified date</p>@ViewBag.issueModifiedDate
+        <script>
+            $(document).ready(function () {
+                    $("#idAddIssue").hide();
+                    $("#btnNewUpload").hide();
+                    $("#idCancelledIssues").hide();
+                    $(".issuelist-filter").change(function () {
+                    var componentID = $('#componentID').val();
+                    var statusID = $('#statusID').val();
+                    if (!componentID) {
+                        componentID = 0;
+                    }
+                    if (!statusID) {
+                        statusID = 0;
+                    }
+
+                    $.ajax({
+                        type: "Post",
+                        url: "/Issues/filterStatus/?componentID=" + componentID + "&statusID=" + statusID + "&solutionID=" +@Session["solutionId"],
+
+                        success: function (response) {
+                            $("#divList").html(response);
+                        }
+                    });
+                    });
+
+
+                    $('#btnUpload').click(function () {
+
+
+                        if (window.FormData !== undefined) {
+
+                            var fileUpload = $("#FileUpload1").get(0);
+                            var files = fileUpload.files;
+                            var fileData = new FormData();
+
+
+                            for (var i = 0; i < files.length; i++) {
+                                fileData.append(files[i].name, files[i]);
+                            }
+
+
+
+                            $.ajax({
+                                type: "POST",
+                                url: '/Issues/UploadFiles/?issueID=' +@Session["issueID"],
+
+                                contentType: false,
+                                processData: false,
+                                data: fileData,
+                                success: function (response) {
+                                    $("#FileUpload1").hide();
+                                    $("#btnUpload").hide();
+                                    $("#uploadedFiles").html(response);
+                                    $("btnNewUpload").show();
+                                }
+
+
+                            });
+                        } else {
+                            alert("FormData is not supported.");
+                        }
+                    });
+
+
+                    $("#btnReopenIssue").click(function () {
+
+                    $.ajax({
+                        type: "Post",
+                        url: "/Issues/statusChangeOnReopenButtonClick/?issueID=" + @Session["issueID"],
+
+
+                    });
+                    });
+
+
+                    $("#btnReturn").click(function () {
+
+                    $.ajax({
+                        type: "Post",
+                        url: "/Issues/statusChangeOnReturnLink/?issueID=" + @Session["issueID"],
+
+                        success: function (response) {
+                            $("#btnReturn").hide();
+                        }
+                    });
+                    });
+
+                    $("#btnMarkComplete").click(function () {
+
+                    $.ajax({
+                        type: "Post",
+                        url: "/Issues/statusChangeOnMarkComplete/?issueID=" + @Session["issueID"],
+
+                        success: function (response) {
+                            $("#btnMarkComplete").hide();
+                        }
+
+                    });
+                    });
+
+            });
+        </script>
+    </div>
+
+</body>
+

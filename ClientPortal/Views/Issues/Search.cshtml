@@ -1,0 +1,19 @@
+﻿
+@model ClientPortal.ViewModels.LoginViewModel
+@{
+    Layout = null;
+}
+<table>
+    <tr>
+        <td>
+            @foreach (var item in Model.Solutions)
+            {
+                <ul>
+
+                    <li class="soluionList"> @Html.ActionLink(item.solutionTitle.ToString(), "solutionIssues", "Issues", new { id = item.solutionID }, null)</li>
+
+                </ul>
+            }
+        </td>
+    </tr>
+</table>

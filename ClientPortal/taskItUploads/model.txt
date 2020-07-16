@@ -1,0 +1,197 @@
+sample listing
+******************
+    @foreach (var item in Model.Solutions)
+        {
+         <ul>
+  
+        
+        @Html.ActionLink(item.solutionTitle.ToString(), "solutionIssues", "Issues", new { id = item.solutionID }, null)
+        
+
+         </ul>
+}
+**********
+Controller
+***********
+  var tblIssues = db.tblIssues.Include(t => t.tblIssueType).Include(t => t.tblIssueCategory).Include(t => t.tblIssuePriority).Include(t => t.tblIssueStatu);
+           var tblstatus = db.tblIssueStatus.ToList();
+            var tblSolution = db.tblSolutions.Where(a => a.IsActive == true);
+            var VM = new ClientPortal.ViewModels.IssueListViewModel
+            {
+                Issues = tblIssues,
+                Statuses = tblstatus,
+                Solutions =tblSolution
+              
+
+            };
+            return View(VM);
+
+**************
+Session
+*************
+ public ActionResult Index(int statusID)
+        {
+            Session["statusID"] = statusID;
+            var tblIssues = db.tblIssues.Include(t => t.tblIssueType).Include(t => t.tblIssueCategory).Include(t => t.tblIssuePriority).Include(t => t.tblIssueStatu).Where(a=>a.issueStatusID == statusID);
+            var tblstatus = db.tblIssueStatus.ToList();
+            var tblSolution = db.tblSolutions.Where(a => a.IsActive == true).ToList();
+            var VM = new ClientPortal.ViewModels.IssueListViewModel
+            {
+            
+                Solutions = tblSolution
+
+
+            };
+***********************************
+button click and parameter passing
+***********************************
+<input type="button" id="btnAddIssue" value="Add Issue" onclick="location.href='@Url.Action("Create", "Issues")?solutionID=' +@Session["solutionId"]"/>
+
+@Session["solutionId"]
+***************
+Filters dropdown-single drop down
+*********************
+  $(document).ready(function () {
+            $("#statusID").change(function () {
+                var statusID = $(this).val();
+                if (!statusID) {
+                    statusID = 0;
+                }
+                $.ajax({
+                    type: "Post",
+                    url: "/Issues/filterStatus/?statusID=" + statusID + "&solutionID=" +@@Session["solutionId"] ,
+
+                    success: function (response) {
+                        $("#divList").html(response);
+                    }
+                })
+            })
+        })
+***************
+Filters dropdown-two drop down
+*********************
+   @Html.DropDownListFor(x => Model.Selectedstatus, new SelectList(Model.Statuses, "statusID", "statusTitle", ""), "--select the status--", htmlAttributes: new { @class = "form-control issuelist-filter", id = "statusID" })
+
+
+
+        @Html.DropDownListFor(x => Model.Selectedcomponent, new SelectList(Model.Components, "componentID", "componentTitle", ""), "--select the Page--", htmlAttributes: new { @class = "form-control issuelist-filter", id = "componentID" })
+
+       $(document).ready(function () {
+                $(".issuelist-filter").change(function () {
+                    var componentID = $('#componentID').val();
+                    var statusID = $('#statusID').val();
+                    if (!componentID) {
+                        componentID = 0;
+                    }
+                    if (!statusID) {
+                        statusID = 0;
+                    }
+
+                    $.ajax({
+                        type: "Post",
+                        url: "/Issues/filterStatus/?componentID=" + componentID + "&statusID=" + statusID + "&solutionID=" +@Session["solutionId"],
+
+                            success: function (response) {
+                                $("#divList").html(response);
+                            }
+                })
+            })
+        })
+*****************
+Controller part filters with partial view
+******************
+var tblIssuesStatus = db.tblIssues.Include(t => t.tblIssueType).Include(t => t.tblIssueStatu).Where(a => a.issueStatusID == statusID && a.solutionId == solutionID);
+
+
+                    //  var tblstatus = db.tblIssueStatus.ToList();
+                    var VMStatus = new ClientPortal.ViewModels.IssueListViewModel
+                    {
+                        Issues = tblIssuesStatus
+                        //Statuses=tblstatus
+
+                    };
+
+*************************************
+Retrive title from sesson Id
+*************************************
+public ActionResult Details(int? id)
+        {
+            Session["issueID"] = id;
+            
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            tblIssue tblIssue = db.tblIssues.Find(id);
+            string issueTitle = tblIssue.issueTitle;
+            Session["issueTitle"] = issueTitle;
+            if (tblIssue == null)
+            {
+                return HttpNotFound();
+            }
+            return View(tblIssue);
+        }
+********************************************
+View Model
+*****************************
+using System.Collections.Generic;
+
+namespace ClientPortal.ViewModels
+{
+    public class IssueListViewModel
+    {
+        public IEnumerable<ClientPortal.Models.tblSolution> Solutions { get; set; }
+        public IEnumerable<ClientPortal.Models.tblIssue> Issues { get; set; }
+        public string Selectedstatus { get; set; }
+        public IEnumerable<ClientPortal.Models.tblIssueStatu> Statuses { get; set; }
+        public string Selectedcomponent { get; set; }
+        public IEnumerable<ClientPortal.Models.tblSolutionComponent> Components { get; set; }
+    }
+}
+
+/*******************************
+displaying the person name along with the notes
+*********************************************/
+//controller
+Session["issueID"] = id;
+            //var tblIssue =  ;
+            var issueList = db.tblIssues.Where(a => a.issueID == id).FirstOrDefault();
+            ViewBag.issuetitle= issueList.issueTitle;
+            ViewBag.issueDescription = issueList.issueDescription;
+            var tblNote = db.tblNotes.Where(a => a.objectTypeID == 11 && a.objectID == id).ToList();
+            var pids = tblNote.Select(x => x.createdByID).ToArray();
+            var personlist = db.tblPersons.Where(x => pids.Contains(x.PersonID)).ToList();
+            ViewBag.personlist = personlist;
+           
+            var VM = new ClientPortal.ViewModels.IssueListViewModel
+            {
+
+                Issue = issueList,
+                Notes=tblNote
+               
+
+            };
+
+//view
+@{
+    ViewBag.Title = "Details";
+    var personlist = (ViewBag.personlist as List<ClientPortal.Models.tblPerson>);
+
+}
+ @foreach (var item in Model.Notes)
+                    {
+                        var person = personlist.FirstOrDefault(x => x.PersonID == item.createdByID);
+                        
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem=>item.createdDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.noteText)
+                        </td>
+                        <td>
+                            @person.FirstName @person.LastName
+                        </td>
+                    </tr>
+                      
+                    }

@@ -1,0 +1,352 @@
+view-solutionIssues
+************************
+
+@model ClientPortal.ViewModels.IssueListViewModel
+
+@{
+    ViewBag.Title = "Index";
+   
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<body>
+    <h2>@Session["solutionTitle"]:Issue Lists </h2>
+
+    <p>
+        <input type="button" id="btnAddIssue" value="Add Issue" onclick="location.href='@Url.Action("Go","Issues")?solutionID=' +@Session["solutionId"]" />
+
+    </p>
+    
+        <p>
+
+        @Html.DropDownListFor(x => Model.Selectedstatus, new SelectList(Model.Statuses, "statusID", "statusTitle", ""), "--select the status--", htmlAttributes: new { @class = "form-control issuelist-filter", id = "statusID" })
+        @Html.DropDownListFor(x => Model.SelectedComponents, new SelectList(Model.Components, "componentID", "componentTitle", ""), "--select the Page--", htmlAttributes: new { @class = "form-control issuelist-filter", id = "componentID" })
+
+       </p>
+
+        <script>
+            $(document).ready(function () {
+                $(".issuelist-filter").change(function () {
+                    var componentID = $('#componentID').val();
+                    var statusID = $('#statusID').val();
+                    if (!componentID) {
+                        componentID = 0;
+                    }
+                    if (!statusID) {
+                        statusID = 0;
+                    }
+
+                    $.ajax({
+                        type: "Post",
+                        url: "/Issues/filterStatus/?componentID=" + componentID + "&statusID=" + statusID + "&solutionID=" +@Session["solutionId"],
+
+                        success: function (response) {
+                            $("#divList").html(response);
+                        }
+                    });
+                });
+              
+            });
+      /*
+        $(document).ready(function () {
+            $("#statusID").change(function () {
+                var statusID = $(this).val();
+                if (!statusID) {
+                    statusID = 0;
+                }
+                $.ajax({
+                    type: "Post",
+                    url: "/Issues/filterStatus/?statusID=" + statusID + "&solutionID=" +@@Session["solutionId"] ,
+
+                    success: function (response) {
+                        $("#divList").html(response);
+                    }
+                })
+            })
+        })
+
+
+           $(document).ready(function () {
+                $("#componentID").change(function () {
+                    var componentID = $(this).val();
+                    if (!componentID) {
+                        componentID = 0;
+                    }
+                    $.ajax({
+                        type: "Post",
+                        url: "/Issues/filterStatus/?componentID=" + componentID + "&solutionID=" +@@Session["solutionId"],
+
+                            success: function (response) {
+                                $("#divList").html(response);
+                            }
+                })
+            })
+        })
+           */
+        </script>
+
+
+    <br />
+
+    <div id="divList">
+
+        <br />
+        <table class="table" id="idTable">
+            <tr>
+                <th>
+
+                    ID
+                </th>
+                <th>
+                    Title
+                </th>
+
+                <th>
+                    Type
+                </th>
+
+                <th>
+                    Status
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.Issues)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.issueID.ToString(), "Details", "Issues", new { id = item.issueID }, null)
+
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.issueTitle.ToString(), "Details", "Issues", new { id = item.issueID}, null)
+
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tblIssueType.typeTitle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tblIssueStatu.statusTitle)
+                    </td>
+
+                </tr>
+            }
+
+        </table>
+    </div>
+
+</body>
+**************************************************************************
+create View
+********************************************************************
+@model ClientPortal.ViewModels.IssueCreateViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+
+<h2>Add an Issue</h2>
+<asp:Label ID="lblDim" runat="server" Text=""></asp:Label>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+
+
+@using (Html.BeginForm("saveRecord", "Issues", FormMethod.Post))
+{
+    <body onload="getSize()">
+        <div class="form-group">
+            <label>Give Your Issue a Title (This is how it will appear in lists):</label>
+            <br />
+            @Html.TextBoxFor(m => m.Issue.issueTitle, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label>Describe your issue: Please load only one idea per issue. (If you have more than one idea for this page,click save and add another).Why?</label>
+            <br />
+            @Html.TextAreaFor(m => m.Issue.issueDescription, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label>Page</label>
+            <br />
+            @Html.DropDownListFor(m => m.Issue.solutionComponentID, new SelectList(Model.Components, "componentID", "componentTitle", ""), "--select the Page--", htmlAttributes: new { @class = "form-control issuelist-filter", id = "componentID" })
+        </div>
+        <div class="form-group">
+            <label>Status</label>
+            <br />
+            @Html.DropDownListFor(m => m.Issue.issueStatusID, new SelectList(Model.Statuses, "statusID", "statusTitle", ""), "--select the Status--", htmlAttributes: new { @class = "form-control issuelist-filter", id = "statusID" })
+        </div>
+
+
+        <div class="form-group">
+            <label>URL</label>
+            <br />
+            @Html.TextBoxFor(m => m.Issue.IssueURL, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label>Issue Type</label>
+            <br />
+            @Html.RadioButtonFor(m => m.Issue.issueTypeID, 1)
+            <label>Question</label>
+            <br />
+            @Html.RadioButtonFor(m => m.Issue.issueTypeID, 6)
+            <label>To Do</label>
+            <br />
+            @Html.RadioButtonFor(m => m.Issue.issueTypeID, 7)
+            <label>Out Of Scope Change</label>
+            <br />
+            @Html.RadioButtonFor(m => m.Issue.issueTypeID, 8)
+            <label>SEO</label>
+            <br />
+            @Html.RadioButtonFor(m => m.Issue.issueTypeID, 11)
+            <label>Content</label>
+            <br />
+
+        </div>
+        <div class="form-group">
+            <label>Is this stopping you from completing your testing?</label>
+            <br />
+            Yes @Html.RadioButtonFor(m => m.Issue.IsCritical, "true")
+            No @Html.RadioButtonFor(m => m.Issue.IsCritical, "false")
+
+
+            <p style="color:red;">(Tick "Yes" only if you can not continue with your testing.)</p>
+        </div>
+        <div class="form-group">
+            <label for="file-upload" class="custom-file-upload">
+                Upload New Attachments
+            </label>
+            <input id="file-upload" type="file" />
+            <br />
+            <input type="button" value="Upload" />
+        </div>
+        <div class="form-group">
+            <label>Pasted Screenshots</label>
+        </div>
+        <input type="hidden" id="w" name="w"/>
+        <input type="hidden" id="h" name="h"/>
+        <input type="hidden" id="b" name="b"/>
+        <button type="button" id="btnSaveClose">Save&Close</button>
+        <button type="button" id="btnSaveAddAnother">Save and Add another</button>
+        <button type="submit" id="btnSave">Save</button>
+        <input type="button" id="btnCancel" value="Cancel" onclick="location.href='@Url.Action("solutionIssues", "Issues")?ID=' +@Session["solutionId"]" />
+    </body>
+
+}
+<br />
+<script type="text/javascript">
+
+</script>
+<div>
+    @Html.ActionLink("Go to issue list", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+************************************
+controller-IssueController
+******************************************
+@model ClientPortal.ViewModels.IssueCreateViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+
+<h2>Add an Issue</h2>
+<asp:Label ID="lblDim" runat="server" Text=""></asp:Label>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+
+
+@using (Html.BeginForm("saveRecord", "Issues", FormMethod.Post))
+{
+    <body onload="getSize()">
+        <div class="form-group">
+            <label>Give Your Issue a Title (This is how it will appear in lists):</label>
+            <br />
+            @Html.TextBoxFor(m => m.Issue.issueTitle, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label>Describe your issue: Please load only one idea per issue. (If you have more than one idea for this page,click save and add another).Why?</label>
+            <br />
+            @Html.TextAreaFor(m => m.Issue.issueDescription, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label>Page</label>
+            <br />
+            @Html.DropDownListFor(m => m.Issue.solutionComponentID, new SelectList(Model.Components, "componentID", "componentTitle", ""), "--select the Page--", htmlAttributes: new { @class = "form-control issuelist-filter", id = "componentID" })
+        </div>
+        <div class="form-group">
+            <label>Status</label>
+            <br />
+            @Html.DropDownListFor(m => m.Issue.issueStatusID, new SelectList(Model.Statuses, "statusID", "statusTitle", ""), "--select the Status--", htmlAttributes: new { @class = "form-control issuelist-filter", id = "statusID" })
+        </div>
+
+
+        <div class="form-group">
+            <label>URL</label>
+            <br />
+            @Html.TextBoxFor(m => m.Issue.IssueURL, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label>Issue Type</label>
+            <br />
+            @Html.RadioButtonFor(m => m.Issue.issueTypeID, 1)
+            <label>Question</label>
+            <br />
+            @Html.RadioButtonFor(m => m.Issue.issueTypeID, 6)
+            <label>To Do</label>
+            <br />
+            @Html.RadioButtonFor(m => m.Issue.issueTypeID, 7)
+            <label>Out Of Scope Change</label>
+            <br />
+            @Html.RadioButtonFor(m => m.Issue.issueTypeID, 8)
+            <label>SEO</label>
+            <br />
+            @Html.RadioButtonFor(m => m.Issue.issueTypeID, 11)
+            <label>Content</label>
+            <br />
+
+        </div>
+        <div class="form-group">
+            <label>Is this stopping you from completing your testing?</label>
+            <br />
+            Yes @Html.RadioButtonFor(m => m.Issue.IsCritical, "true")
+            No @Html.RadioButtonFor(m => m.Issue.IsCritical, "false")
+
+
+            <p style="color:red;">(Tick "Yes" only if you can not continue with your testing.)</p>
+        </div>
+        <div class="form-group">
+            <label for="file-upload" class="custom-file-upload">
+                Upload New Attachments
+            </label>
+            <input id="file-upload" type="file" />
+            <br />
+            <input type="button" value="Upload" />
+        </div>
+        <div class="form-group">
+            <label>Pasted Screenshots</label>
+        </div>
+        <input type="hidden" id="w" name="w"/>
+        <input type="hidden" id="h" name="h"/>
+        <input type="hidden" id="b" name="b"/>
+        <button type="button" id="btnSaveClose">Save&Close</button>
+        <button type="button" id="btnSaveAddAnother">Save and Add another</button>
+        <button type="submit" id="btnSave">Save</button>
+        <input type="button" id="btnCancel" value="Cancel" onclick="location.href='@Url.Action("solutionIssues", "Issues")?ID=' +@Session["solutionId"]" />
+    </body>
+
+}
+<br />
+<script type="text/javascript">
+
+</script>
+<div>
+    @Html.ActionLink("Go to issue list", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

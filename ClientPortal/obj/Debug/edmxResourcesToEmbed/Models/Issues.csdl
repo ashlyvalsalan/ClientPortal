@@ -1,0 +1,529 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Streemline3_1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tblCompany">
+    <Key>
+      <PropertyRef Name="CompanyID" />
+    </Key>
+    <Property Name="CompanyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CompanyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CompanyTypeID" Type="Int32" Nullable="false" />
+    <Property Name="ContactID" Type="Int32" />
+    <Property Name="CompanyCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <Property Name="BuildingName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="StreetAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Suburb" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PostalAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PostalSuburb" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PostalCity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="FaxNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="WebSite" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="BankAccount" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CompanyNotes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ChargeRate" Type="Int32" />
+    <Property Name="salesBudget" Type="Decimal" Precision="19" Scale="4" />
+    <Property Name="parentCompanyID" Type="Int32" />
+    <Property Name="createdByID" Type="Int32" Nullable="false" />
+    <Property Name="createdDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="LastEditDate" Type="DateTime" Precision="3" />
+    <Property Name="LastEditByID" Type="Int32" />
+    <Property Name="accountsEmail" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="XeroCompanyName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="SalesRepID" Type="Int32" />
+    <Property Name="EngineerID" Type="Int32" />
+    <Property Name="SecondaryEngineerID" Type="Int32" />
+    <Property Name="CustomerTypeID" Type="Int32" />
+    <Property Name="isActive" Type="Boolean" />
+    <Property Name="nextCallDate" Type="DateTime" Precision="3" />
+    <Property Name="clientLevelID" Type="Int32" />
+    <Property Name="lastCallDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tblCompanyType" Relationship="Self.FK_tblCompany_tblCompanyType" FromRole="tblCompany" ToRole="tblCompanyType" />
+    <NavigationProperty Name="tblPerson" Relationship="Self.FK_tblCompany_tblPerson" FromRole="tblCompany" ToRole="tblPerson" />
+    <NavigationProperty Name="tblPerson1" Relationship="Self.FK_tblCompany_tblPerson_Contact" FromRole="tblCompany" ToRole="tblPerson" />
+    <NavigationProperty Name="tblPerson2" Relationship="Self.FK_tblCompany_tblPerson_LastEditBy" FromRole="tblCompany" ToRole="tblPerson" />
+    <NavigationProperty Name="tblPerson3" Relationship="Self.FK_tblCompany_tblPerson1" FromRole="tblCompany" ToRole="tblPerson" />
+    <NavigationProperty Name="tblPerson4" Relationship="Self.FK_tblCompany_tblPerson2" FromRole="tblCompany" ToRole="tblPerson" />
+    <NavigationProperty Name="tblPersons" Relationship="Self.FK_tblPerson_tblCompany" FromRole="tblCompany" ToRole="tblPerson" />
+    <NavigationProperty Name="tblSolutions" Relationship="Self.FK_tblSolution_tblCompany" FromRole="tblCompany" ToRole="tblSolution" />
+  </EntityType>
+  <EntityType Name="tblCompanyType">
+    <Key>
+      <PropertyRef Name="CompanyTypeID" />
+    </Key>
+    <Property Name="CompanyTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CompanyTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="createdByID" Type="Int32" Nullable="false" />
+    <Property Name="createdDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="lastEditByID" Type="Int32" />
+    <Property Name="lastEditDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tblCompanies" Relationship="Self.FK_tblCompany_tblCompanyType" FromRole="tblCompanyType" ToRole="tblCompany" />
+  </EntityType>
+  <EntityType Name="tblCustomer">
+    <Key>
+      <PropertyRef Name="customerID" />
+    </Key>
+    <Property Name="customerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="customerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="nextInvoiceNumber" Type="Int32" />
+    <Property Name="nextEstimateNumber" Type="Int32" />
+    <Property Name="creatorID" Type="Int32" Nullable="false" />
+    <Property Name="createdDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="lastEditByID" Type="Int32" />
+    <Property Name="lastEditDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="tblCustomerType">
+    <Key>
+      <PropertyRef Name="CustomerTypeID" />
+    </Key>
+    <Property Name="CustomerTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="createdByID" Type="Int32" Nullable="false" />
+    <Property Name="createdDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="lastEditByID" Type="Int32" />
+    <Property Name="lastEditDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityType Name="tblIssue">
+    <Key>
+      <PropertyRef Name="issueID" />
+    </Key>
+    <Property Name="issueID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="issueTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="issueDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="solutionComponentID" Type="Int32" />
+    <Property Name="issueTypeID" Type="Int32" Nullable="false" />
+    <Property Name="issueStatusID" Type="Int32" Nullable="false" />
+    <Property Name="issuePriorityID" Type="Int32" Nullable="false" />
+    <Property Name="issueCategoryID" Type="Int32" Nullable="false" />
+    <Property Name="EstimateMinutes" Type="Int32" />
+    <Property Name="OwnerID" Type="Int32" />
+    <Property Name="CreatedByID" Type="Int32" Nullable="false" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ModifiedByID" Type="Int32" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+    <Property Name="issueResolutionID" Type="Int32" />
+    <Property Name="RaisedByID" Type="Int32" />
+    <Property Name="IsPublic" Type="Boolean" Nullable="false" />
+    <Property Name="IsCritical" Type="Boolean" Nullable="false" />
+    <Property Name="IssueURL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="pageUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="browserWidth" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="browserHeight" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="userAgent" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="LastActivityDate" Type="DateTime" Precision="3" />
+    <Property Name="solutionId" Type="Int32" />
+    <NavigationProperty Name="tblIssueType" Relationship="Self.FK_tblIssue_tblIssue" FromRole="tblIssue" ToRole="tblIssueType" />
+    <NavigationProperty Name="tblIssueCategory" Relationship="Self.FK_tblIssue_tblIssueCategory" FromRole="tblIssue" ToRole="tblIssueCategory" />
+    <NavigationProperty Name="tblIssuePriority" Relationship="Self.FK_tblIssue_tblIssuePriority" FromRole="tblIssue" ToRole="tblIssuePriority" />
+    <NavigationProperty Name="tblIssueStatu" Relationship="Self.FK_tblIssue_tblIssueStatus" FromRole="tblIssue" ToRole="tblIssueStatus" />
+    <NavigationProperty Name="tblSolutionComponent" Relationship="Streemline3_1Model.FK_tblIssue_tblSolutionComponent" FromRole="tblIssue" ToRole="tblSolutionComponent" />
+  </EntityType>
+  <EntityType Name="tblIssueCategory">
+    <Key>
+      <PropertyRef Name="categoryID" />
+    </Key>
+    <Property Name="categoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="categoryTitle" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="categoryDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tblIssues" Relationship="Self.FK_tblIssue_tblIssueCategory" FromRole="tblIssueCategory" ToRole="tblIssue" />
+  </EntityType>
+  <EntityType Name="tblIssuePriority">
+    <Key>
+      <PropertyRef Name="priorityID" />
+    </Key>
+    <Property Name="priorityID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="priorityTitle" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="priorityDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="priorityIcon" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="priorityIcon2" Type="String" MaxLength="112" FixedLength="false" Unicode="true" />
+    <Property Name="SortOrder" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tblIssues" Relationship="Self.FK_tblIssue_tblIssuePriority" FromRole="tblIssuePriority" ToRole="tblIssue" />
+  </EntityType>
+  <EntityType Name="tblIssueResult">
+    <Key>
+      <PropertyRef Name="resultID" />
+    </Key>
+    <Property Name="resultID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tblIssueStatu">
+    <Key>
+      <PropertyRef Name="statusID" />
+    </Key>
+    <Property Name="statusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="statusTitle" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="statusDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="isActive" Type="Boolean" />
+    <NavigationProperty Name="tblIssues" Relationship="Self.FK_tblIssue_tblIssueStatus" FromRole="tblIssueStatus" ToRole="tblIssue" />
+  </EntityType>
+  <EntityType Name="tblIssueType">
+    <Key>
+      <PropertyRef Name="typeID" />
+    </Key>
+    <Property Name="typeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="typeTitle" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="typeDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="typeImage" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="showInFeedbackSystem" Type="Boolean" />
+    <Property Name="TypeIcon" Type="String" MaxLength="112" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tblIssues" Relationship="Self.FK_tblIssue_tblIssue" FromRole="tblIssueType" ToRole="tblIssue" />
+  </EntityType>
+  <EntityType Name="tblPerson">
+    <Key>
+      <PropertyRef Name="PersonID" />
+    </Key>
+    <Property Name="PersonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Prefix" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="MiddleName" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Suffix" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Nickname" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="HomePhone" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="WorkPhone" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="MobilePhone" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="FaxNumber" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="AlternativePhone" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+    <Property Name="EmailAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Birthdate" Type="DateTime" Precision="3" />
+    <Property Name="notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CompanyID" Type="Int32" Nullable="false" />
+    <Property Name="PartnersName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="createdDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="createdByID" Type="Int32" Nullable="false" />
+    <Property Name="LastEditDate" Type="DateTime" Precision="3" />
+    <Property Name="LastEditByID" Type="Int32" />
+    <Property Name="CanAssignTask" Type="Boolean" />
+    <Property Name="DoNotSendEmail" Type="Boolean" />
+    <Property Name="AutoCreateTasks" Type="Boolean" Nullable="false" />
+    <Property Name="PreventAutoCreateTask" Type="Boolean" />
+    <NavigationProperty Name="tblCompanies" Relationship="Self.FK_tblCompany_tblPerson" FromRole="tblPerson" ToRole="tblCompany" />
+    <NavigationProperty Name="tblCompanies1" Relationship="Self.FK_tblCompany_tblPerson_Contact" FromRole="tblPerson" ToRole="tblCompany" />
+    <NavigationProperty Name="tblCompanies2" Relationship="Self.FK_tblCompany_tblPerson_LastEditBy" FromRole="tblPerson" ToRole="tblCompany" />
+    <NavigationProperty Name="tblCompanies3" Relationship="Self.FK_tblCompany_tblPerson1" FromRole="tblPerson" ToRole="tblCompany" />
+    <NavigationProperty Name="tblCompanies4" Relationship="Self.FK_tblCompany_tblPerson2" FromRole="tblPerson" ToRole="tblCompany" />
+    <NavigationProperty Name="tblCompany" Relationship="Self.FK_tblPerson_tblCompany" FromRole="tblPerson" ToRole="tblCompany" />
+  </EntityType>
+  <EntityType Name="tblSolution">
+    <Key>
+      <PropertyRef Name="solutionID" />
+    </Key>
+    <Property Name="solutionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="solutionTitle" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+    <Property Name="solutionDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="clientID" Type="Int32" Nullable="false" />
+    <Property Name="MockupUrl" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="clientAdministratorID" Type="Int32" />
+    <Property Name="solutionGUID" Type="Guid" Nullable="false" />
+    <Property Name="EmailAddressNotifications" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="TotalEstimate" Type="Int32" />
+    <Property Name="relatedTaskID" Type="Int32" />
+    <Property Name="developmentURL" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="statusId" Type="Int32" Nullable="false" />
+    <Property Name="StripEndingNumbers" Type="Boolean" />
+    <Property Name="LastActivityDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tblCompany" Relationship="Self.FK_tblSolution_tblCompany" FromRole="tblSolution" ToRole="tblCompany" />
+    <NavigationProperty Name="tblSolutionComponents" Relationship="Streemline3_1Model.FK_tblSolutionComponent_tblSolution" FromRole="tblSolution" ToRole="tblSolutionComponent" />
+  </EntityType>
+  <Association Name="FK_tblCompany_tblCompanyType">
+    <End Role="tblCompanyType" Type="Self.tblCompanyType" Multiplicity="1" />
+    <End Role="tblCompany" Type="Self.tblCompany" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCompanyType">
+        <PropertyRef Name="CompanyTypeID" />
+      </Principal>
+      <Dependent Role="tblCompany">
+        <PropertyRef Name="CompanyTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblCompany_tblPerson">
+    <End Role="tblPerson" Type="Self.tblPerson" Multiplicity="0..1" />
+    <End Role="tblCompany" Type="Self.tblCompany" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="tblCompany">
+        <PropertyRef Name="SalesRepID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblCompany_tblPerson_Contact">
+    <End Role="tblPerson" Type="Self.tblPerson" Multiplicity="0..1" />
+    <End Role="tblCompany" Type="Self.tblCompany" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="tblCompany">
+        <PropertyRef Name="ContactID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblCompany_tblPerson_LastEditBy">
+    <End Role="tblPerson" Type="Self.tblPerson" Multiplicity="0..1" />
+    <End Role="tblCompany" Type="Self.tblCompany" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="tblCompany">
+        <PropertyRef Name="LastEditByID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblCompany_tblPerson1">
+    <End Role="tblPerson" Type="Self.tblPerson" Multiplicity="0..1" />
+    <End Role="tblCompany" Type="Self.tblCompany" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="tblCompany">
+        <PropertyRef Name="EngineerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblCompany_tblPerson2">
+    <End Role="tblPerson" Type="Self.tblPerson" Multiplicity="0..1" />
+    <End Role="tblCompany" Type="Self.tblCompany" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblPerson">
+        <PropertyRef Name="PersonID" />
+      </Principal>
+      <Dependent Role="tblCompany">
+        <PropertyRef Name="SecondaryEngineerID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblPerson_tblCompany">
+    <End Role="tblCompany" Type="Self.tblCompany" Multiplicity="1" />
+    <End Role="tblPerson" Type="Self.tblPerson" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCompany">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="tblPerson">
+        <PropertyRef Name="CompanyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblSolution_tblCompany">
+    <End Role="tblCompany" Type="Self.tblCompany" Multiplicity="1" />
+    <End Role="tblSolution" Type="Self.tblSolution" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblCompany">
+        <PropertyRef Name="CompanyID" />
+      </Principal>
+      <Dependent Role="tblSolution">
+        <PropertyRef Name="clientID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblIssue_tblIssue">
+    <End Role="tblIssueType" Type="Self.tblIssueType" Multiplicity="1" />
+    <End Role="tblIssue" Type="Self.tblIssue" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblIssueType">
+        <PropertyRef Name="typeID" />
+      </Principal>
+      <Dependent Role="tblIssue">
+        <PropertyRef Name="issueTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblIssue_tblIssueCategory">
+    <End Role="tblIssueCategory" Type="Self.tblIssueCategory" Multiplicity="1" />
+    <End Role="tblIssue" Type="Self.tblIssue" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblIssueCategory">
+        <PropertyRef Name="categoryID" />
+      </Principal>
+      <Dependent Role="tblIssue">
+        <PropertyRef Name="issueCategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblIssue_tblIssuePriority">
+    <End Role="tblIssuePriority" Type="Self.tblIssuePriority" Multiplicity="1" />
+    <End Role="tblIssue" Type="Self.tblIssue" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblIssuePriority">
+        <PropertyRef Name="priorityID" />
+      </Principal>
+      <Dependent Role="tblIssue">
+        <PropertyRef Name="issuePriorityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblIssue_tblIssueStatus">
+    <End Role="tblIssueStatus" Type="Self.tblIssueStatu" Multiplicity="1" />
+    <End Role="tblIssue" Type="Self.tblIssue" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblIssueStatus">
+        <PropertyRef Name="statusID" />
+      </Principal>
+      <Dependent Role="tblIssue">
+        <PropertyRef Name="issueStatusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Streemline3_1Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tblCompanies" EntityType="Self.tblCompany" />
+    <EntitySet Name="tblCompanyTypes" EntityType="Self.tblCompanyType" />
+    <EntitySet Name="tblCustomers" EntityType="Self.tblCustomer" />
+    <EntitySet Name="tblCustomerTypes" EntityType="Self.tblCustomerType" />
+    <EntitySet Name="tblIssues" EntityType="Self.tblIssue" />
+    <EntitySet Name="tblIssueCategories" EntityType="Self.tblIssueCategory" />
+    <EntitySet Name="tblIssuePriorities" EntityType="Self.tblIssuePriority" />
+    <EntitySet Name="tblIssueResults" EntityType="Self.tblIssueResult" />
+    <EntitySet Name="tblIssueStatus" EntityType="Self.tblIssueStatu" />
+    <EntitySet Name="tblIssueTypes" EntityType="Self.tblIssueType" />
+    <EntitySet Name="tblPersons" EntityType="Self.tblPerson" />
+    <EntitySet Name="tblSolutions" EntityType="Self.tblSolution" />
+    <AssociationSet Name="FK_tblCompany_tblCompanyType" Association="Self.FK_tblCompany_tblCompanyType">
+      <End Role="tblCompanyType" EntitySet="tblCompanyTypes" />
+      <End Role="tblCompany" EntitySet="tblCompanies" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblCompany_tblPerson" Association="Self.FK_tblCompany_tblPerson">
+      <End Role="tblPerson" EntitySet="tblPersons" />
+      <End Role="tblCompany" EntitySet="tblCompanies" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblCompany_tblPerson_Contact" Association="Self.FK_tblCompany_tblPerson_Contact">
+      <End Role="tblPerson" EntitySet="tblPersons" />
+      <End Role="tblCompany" EntitySet="tblCompanies" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblCompany_tblPerson_LastEditBy" Association="Self.FK_tblCompany_tblPerson_LastEditBy">
+      <End Role="tblPerson" EntitySet="tblPersons" />
+      <End Role="tblCompany" EntitySet="tblCompanies" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblCompany_tblPerson1" Association="Self.FK_tblCompany_tblPerson1">
+      <End Role="tblPerson" EntitySet="tblPersons" />
+      <End Role="tblCompany" EntitySet="tblCompanies" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblCompany_tblPerson2" Association="Self.FK_tblCompany_tblPerson2">
+      <End Role="tblPerson" EntitySet="tblPersons" />
+      <End Role="tblCompany" EntitySet="tblCompanies" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblPerson_tblCompany" Association="Self.FK_tblPerson_tblCompany">
+      <End Role="tblCompany" EntitySet="tblCompanies" />
+      <End Role="tblPerson" EntitySet="tblPersons" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblSolution_tblCompany" Association="Self.FK_tblSolution_tblCompany">
+      <End Role="tblCompany" EntitySet="tblCompanies" />
+      <End Role="tblSolution" EntitySet="tblSolutions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblIssue_tblIssue" Association="Self.FK_tblIssue_tblIssue">
+      <End Role="tblIssueType" EntitySet="tblIssueTypes" />
+      <End Role="tblIssue" EntitySet="tblIssues" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblIssue_tblIssueCategory" Association="Self.FK_tblIssue_tblIssueCategory">
+      <End Role="tblIssueCategory" EntitySet="tblIssueCategories" />
+      <End Role="tblIssue" EntitySet="tblIssues" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblIssue_tblIssuePriority" Association="Self.FK_tblIssue_tblIssuePriority">
+      <End Role="tblIssuePriority" EntitySet="tblIssuePriorities" />
+      <End Role="tblIssue" EntitySet="tblIssues" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblIssue_tblIssueStatus" Association="Self.FK_tblIssue_tblIssueStatus">
+      <End Role="tblIssueStatus" EntitySet="tblIssueStatus" />
+      <End Role="tblIssue" EntitySet="tblIssues" />
+    </AssociationSet>
+    <EntitySet Name="tblSolutionComponents" EntityType="Streemline3_1Model.tblSolutionComponent" />
+    <AssociationSet Name="FK_tblIssue_tblSolutionComponent" Association="Streemline3_1Model.FK_tblIssue_tblSolutionComponent">
+      <End Role="tblSolutionComponent" EntitySet="tblSolutionComponents" />
+      <End Role="tblIssue" EntitySet="tblIssues" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tblSolutionComponent_tblSolution" Association="Streemline3_1Model.FK_tblSolutionComponent_tblSolution">
+      <End Role="tblSolution" EntitySet="tblSolutions" />
+      <End Role="tblSolutionComponent" EntitySet="tblSolutionComponents" />
+    </AssociationSet>
+    <EntitySet Name="tblNotes" EntityType="Streemline3_1Model.tblNote" />
+    <EntitySet Name="tblFileAttachments" EntityType="Streemline3_1Model.tblFileAttachment" />
+  </EntityContainer>
+  <EntityType Name="tblSolutionComponent">
+    <Key>
+      <PropertyRef Name="componentID" />
+    </Key>
+    <Property Name="componentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="componentTitle" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="componentUrl" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="componentMockupPageName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="componentDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="componentTypeID" Type="Int32" />
+    <Property Name="solutionID" Type="Int32" Nullable="false" />
+    <Property Name="parentID" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tblIssues" Relationship="Streemline3_1Model.FK_tblIssue_tblSolutionComponent" FromRole="tblSolutionComponent" ToRole="tblIssue" />
+    <NavigationProperty Name="tblSolution" Relationship="Streemline3_1Model.FK_tblSolutionComponent_tblSolution" FromRole="tblSolutionComponent" ToRole="tblSolution" />
+  </EntityType>
+  <Association Name="FK_tblIssue_tblSolutionComponent">
+    <End Type="Streemline3_1Model.tblSolutionComponent" Role="tblSolutionComponent" Multiplicity="0..1" />
+    <End Type="Streemline3_1Model.tblIssue" Role="tblIssue" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblSolutionComponent">
+        <PropertyRef Name="componentID" />
+      </Principal>
+      <Dependent Role="tblIssue">
+        <PropertyRef Name="solutionComponentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tblSolutionComponent_tblSolution">
+    <End Type="Streemline3_1Model.tblSolution" Role="tblSolution" Multiplicity="1" />
+    <End Type="Streemline3_1Model.tblSolutionComponent" Role="tblSolutionComponent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tblSolution">
+        <PropertyRef Name="solutionID" />
+      </Principal>
+      <Dependent Role="tblSolutionComponent">
+        <PropertyRef Name="solutionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="tblNote">
+    <Key>
+      <PropertyRef Name="noteID" />
+    </Key>
+    <Property Name="noteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="noteText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="objectTypeID" Type="Int32" />
+    <Property Name="objectID" Type="Int32" />
+    <Property Name="createdDate" Type="DateTime" Precision="3" />
+    <Property Name="createdByID" Type="Int32" />
+    <Property Name="lastEditByID" Type="Int32" />
+    <Property Name="lastEditDate" Type="DateTime" Precision="3" />
+    <Property Name="systemCreated" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="IsPublic" Type="Boolean" Nullable="false" />
+    <Property Name="emailAddress" Type="String" MaxLength="155" FixedLength="false" Unicode="true" />
+    <Property Name="noteTitle" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="workflowID" Type="Int64" />
+    <Property Name="timesheetEntryID" Type="Int64" />
+    <Property Name="messageID" Type="Int64" />
+    <Property Name="noteTypeId" Type="Int32" />
+    <Property Name="sourceId" Type="Int32" />
+    <Property Name="sourceIDBIG" Type="Int64" />
+    <Property Name="CompanyId" Type="Int32" />
+    <Property Name="PersonID" Type="Int32" />
+    <Property Name="ObjectTitle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="MasterObjectId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tblFileAttachment">
+    <Key>
+      <PropertyRef Name="fileID" />
+    </Key>
+    <Property Name="fileID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="itemID" Type="Int32" Nullable="false" />
+    <Property Name="objectTypeID" Type="Int32" Nullable="false" />
+    <Property Name="originalFileName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="fileType" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="savedAsFileName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="createdDate" Type="DateTime" Precision="3" />
+    <Property Name="createdByID" Type="Int32" />
+  </EntityType>
+</Schema>

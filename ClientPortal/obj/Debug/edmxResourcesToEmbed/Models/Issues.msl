@@ -1,0 +1,277 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Streemline3_1ModelStoreContainer" CdmEntityContainer="Streemline3_1Entities">
+    <EntitySetMapping Name="tblCompanies">
+      <EntityTypeMapping TypeName="Streemline3_1Model.tblCompany">
+        <MappingFragment StoreEntitySet="tblCompany">
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+          <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+          <ScalarProperty Name="CompanyTypeID" ColumnName="CompanyTypeID" />
+          <ScalarProperty Name="ContactID" ColumnName="ContactID" />
+          <ScalarProperty Name="CompanyCode" ColumnName="CompanyCode" />
+          <ScalarProperty Name="BuildingName" ColumnName="BuildingName" />
+          <ScalarProperty Name="StreetAddress" ColumnName="StreetAddress" />
+          <ScalarProperty Name="Suburb" ColumnName="Suburb" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+          <ScalarProperty Name="PostalAddress" ColumnName="PostalAddress" />
+          <ScalarProperty Name="PostalSuburb" ColumnName="PostalSuburb" />
+          <ScalarProperty Name="PostalCity" ColumnName="PostalCity" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="FaxNumber" ColumnName="FaxNumber" />
+          <ScalarProperty Name="WebSite" ColumnName="WebSite" />
+          <ScalarProperty Name="BankAccount" ColumnName="BankAccount" />
+          <ScalarProperty Name="CompanyNotes" ColumnName="CompanyNotes" />
+          <ScalarProperty Name="ChargeRate" ColumnName="ChargeRate" />
+          <ScalarProperty Name="salesBudget" ColumnName="salesBudget" />
+          <ScalarProperty Name="parentCompanyID" ColumnName="parentCompanyID" />
+          <ScalarProperty Name="createdByID" ColumnName="createdByID" />
+          <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+          <ScalarProperty Name="LastEditDate" ColumnName="LastEditDate" />
+          <ScalarProperty Name="LastEditByID" ColumnName="LastEditByID" />
+          <ScalarProperty Name="accountsEmail" ColumnName="accountsEmail" />
+          <ScalarProperty Name="XeroCompanyName" ColumnName="XeroCompanyName" />
+          <ScalarProperty Name="SalesRepID" ColumnName="SalesRepID" />
+          <ScalarProperty Name="EngineerID" ColumnName="EngineerID" />
+          <ScalarProperty Name="SecondaryEngineerID" ColumnName="SecondaryEngineerID" />
+          <ScalarProperty Name="CustomerTypeID" ColumnName="CustomerTypeID" />
+          <ScalarProperty Name="isActive" ColumnName="isActive" />
+          <ScalarProperty Name="nextCallDate" ColumnName="nextCallDate" />
+          <ScalarProperty Name="clientLevelID" ColumnName="clientLevelID" />
+          <ScalarProperty Name="lastCallDate" ColumnName="lastCallDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblCompanyTypes">
+      <EntityTypeMapping TypeName="Streemline3_1Model.tblCompanyType">
+        <MappingFragment StoreEntitySet="tblCompanyType">
+          <ScalarProperty Name="CompanyTypeID" ColumnName="CompanyTypeID" />
+          <ScalarProperty Name="CompanyTypeName" ColumnName="CompanyTypeName" />
+          <ScalarProperty Name="createdByID" ColumnName="createdByID" />
+          <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+          <ScalarProperty Name="lastEditByID" ColumnName="lastEditByID" />
+          <ScalarProperty Name="lastEditDate" ColumnName="lastEditDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblCustomers">
+      <EntityTypeMapping TypeName="Streemline3_1Model.tblCustomer">
+        <MappingFragment StoreEntitySet="tblCustomer">
+          <ScalarProperty Name="customerID" ColumnName="customerID" />
+          <ScalarProperty Name="customerName" ColumnName="customerName" />
+          <ScalarProperty Name="nextInvoiceNumber" ColumnName="nextInvoiceNumber" />
+          <ScalarProperty Name="nextEstimateNumber" ColumnName="nextEstimateNumber" />
+          <ScalarProperty Name="creatorID" ColumnName="creatorID" />
+          <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+          <ScalarProperty Name="lastEditByID" ColumnName="lastEditByID" />
+          <ScalarProperty Name="lastEditDate" ColumnName="lastEditDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblCustomerTypes">
+      <EntityTypeMapping TypeName="Streemline3_1Model.tblCustomerType">
+        <MappingFragment StoreEntitySet="tblCustomerType">
+          <ScalarProperty Name="CustomerTypeID" ColumnName="CustomerTypeID" />
+          <ScalarProperty Name="CustomerTypeName" ColumnName="CustomerTypeName" />
+          <ScalarProperty Name="createdByID" ColumnName="createdByID" />
+          <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+          <ScalarProperty Name="lastEditByID" ColumnName="lastEditByID" />
+          <ScalarProperty Name="lastEditDate" ColumnName="lastEditDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblIssues">
+      <EntityTypeMapping TypeName="Streemline3_1Model.tblIssue">
+        <MappingFragment StoreEntitySet="tblIssue">
+          <ScalarProperty Name="issueID" ColumnName="issueID" />
+          <ScalarProperty Name="issueTitle" ColumnName="issueTitle" />
+          <ScalarProperty Name="issueDescription" ColumnName="issueDescription" />
+          <ScalarProperty Name="solutionComponentID" ColumnName="solutionComponentID" />
+          <ScalarProperty Name="issueTypeID" ColumnName="issueTypeID" />
+          <ScalarProperty Name="issueStatusID" ColumnName="issueStatusID" />
+          <ScalarProperty Name="issuePriorityID" ColumnName="issuePriorityID" />
+          <ScalarProperty Name="issueCategoryID" ColumnName="issueCategoryID" />
+          <ScalarProperty Name="EstimateMinutes" ColumnName="EstimateMinutes" />
+          <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+          <ScalarProperty Name="CreatedByID" ColumnName="CreatedByID" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedByID" ColumnName="ModifiedByID" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="issueResolutionID" ColumnName="issueResolutionID" />
+          <ScalarProperty Name="RaisedByID" ColumnName="RaisedByID" />
+          <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+          <ScalarProperty Name="IsCritical" ColumnName="IsCritical" />
+          <ScalarProperty Name="IssueURL" ColumnName="IssueURL" />
+          <ScalarProperty Name="pageUrl" ColumnName="pageUrl" />
+          <ScalarProperty Name="browserWidth" ColumnName="browserWidth" />
+          <ScalarProperty Name="browserHeight" ColumnName="browserHeight" />
+          <ScalarProperty Name="userAgent" ColumnName="userAgent" />
+          <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
+          <ScalarProperty Name="solutionId" ColumnName="solutionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblIssueCategories">
+      <EntityTypeMapping TypeName="Streemline3_1Model.tblIssueCategory">
+        <MappingFragment StoreEntitySet="tblIssueCategory">
+          <ScalarProperty Name="categoryID" ColumnName="categoryID" />
+          <ScalarProperty Name="categoryTitle" ColumnName="categoryTitle" />
+          <ScalarProperty Name="categoryDescription" ColumnName="categoryDescription" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblIssuePriorities">
+      <EntityTypeMapping TypeName="Streemline3_1Model.tblIssuePriority">
+        <MappingFragment StoreEntitySet="tblIssuePriority">
+          <ScalarProperty Name="priorityID" ColumnName="priorityID" />
+          <ScalarProperty Name="priorityTitle" ColumnName="priorityTitle" />
+          <ScalarProperty Name="priorityDescription" ColumnName="priorityDescription" />
+          <ScalarProperty Name="priorityIcon" ColumnName="priorityIcon" />
+          <ScalarProperty Name="priorityIcon2" ColumnName="priorityIcon2" />
+          <ScalarProperty Name="SortOrder" ColumnName="SortOrder" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblIssueResults">
+      <EntityTypeMapping TypeName="Streemline3_1Model.tblIssueResult">
+        <MappingFragment StoreEntitySet="tblIssueResult">
+          <ScalarProperty Name="resultID" ColumnName="resultID" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblIssueStatus">
+      <EntityTypeMapping TypeName="Streemline3_1Model.tblIssueStatu">
+        <MappingFragment StoreEntitySet="tblIssueStatus">
+          <ScalarProperty Name="statusID" ColumnName="statusID" />
+          <ScalarProperty Name="statusTitle" ColumnName="statusTitle" />
+          <ScalarProperty Name="statusDescription" ColumnName="statusDescription" />
+          <ScalarProperty Name="isActive" ColumnName="isActive" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblIssueTypes">
+      <EntityTypeMapping TypeName="Streemline3_1Model.tblIssueType">
+        <MappingFragment StoreEntitySet="tblIssueType">
+          <ScalarProperty Name="typeID" ColumnName="typeID" />
+          <ScalarProperty Name="typeTitle" ColumnName="typeTitle" />
+          <ScalarProperty Name="typeDescription" ColumnName="typeDescription" />
+          <ScalarProperty Name="typeImage" ColumnName="typeImage" />
+          <ScalarProperty Name="showInFeedbackSystem" ColumnName="showInFeedbackSystem" />
+          <ScalarProperty Name="TypeIcon" ColumnName="TypeIcon" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblPersons">
+      <EntityTypeMapping TypeName="Streemline3_1Model.tblPerson">
+        <MappingFragment StoreEntitySet="tblPerson">
+          <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+          <ScalarProperty Name="Prefix" ColumnName="Prefix" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Suffix" ColumnName="Suffix" />
+          <ScalarProperty Name="Nickname" ColumnName="Nickname" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
+          <ScalarProperty Name="WorkPhone" ColumnName="WorkPhone" />
+          <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
+          <ScalarProperty Name="FaxNumber" ColumnName="FaxNumber" />
+          <ScalarProperty Name="AlternativePhone" ColumnName="AlternativePhone" />
+          <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+          <ScalarProperty Name="Birthdate" ColumnName="Birthdate" />
+          <ScalarProperty Name="notes" ColumnName="notes" />
+          <ScalarProperty Name="CompanyID" ColumnName="CompanyID" />
+          <ScalarProperty Name="PartnersName" ColumnName="PartnersName" />
+          <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+          <ScalarProperty Name="createdByID" ColumnName="createdByID" />
+          <ScalarProperty Name="LastEditDate" ColumnName="LastEditDate" />
+          <ScalarProperty Name="LastEditByID" ColumnName="LastEditByID" />
+          <ScalarProperty Name="CanAssignTask" ColumnName="CanAssignTask" />
+          <ScalarProperty Name="DoNotSendEmail" ColumnName="DoNotSendEmail" />
+          <ScalarProperty Name="AutoCreateTasks" ColumnName="AutoCreateTasks" />
+          <ScalarProperty Name="PreventAutoCreateTask" ColumnName="PreventAutoCreateTask" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblSolutions">
+      <EntityTypeMapping TypeName="Streemline3_1Model.tblSolution">
+        <MappingFragment StoreEntitySet="tblSolution">
+          <ScalarProperty Name="solutionID" ColumnName="solutionID" />
+          <ScalarProperty Name="solutionTitle" ColumnName="solutionTitle" />
+          <ScalarProperty Name="solutionDescription" ColumnName="solutionDescription" />
+          <ScalarProperty Name="clientID" ColumnName="clientID" />
+          <ScalarProperty Name="MockupUrl" ColumnName="MockupUrl" />
+          <ScalarProperty Name="clientAdministratorID" ColumnName="clientAdministratorID" />
+          <ScalarProperty Name="solutionGUID" ColumnName="solutionGUID" />
+          <ScalarProperty Name="EmailAddressNotifications" ColumnName="EmailAddressNotifications" />
+          <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+          <ScalarProperty Name="TotalEstimate" ColumnName="TotalEstimate" />
+          <ScalarProperty Name="relatedTaskID" ColumnName="relatedTaskID" />
+          <ScalarProperty Name="developmentURL" ColumnName="developmentURL" />
+          <ScalarProperty Name="statusId" ColumnName="statusId" />
+          <ScalarProperty Name="StripEndingNumbers" ColumnName="StripEndingNumbers" />
+          <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblSolutionComponents">
+      <EntityTypeMapping TypeName="Streemline3_1Model.tblSolutionComponent">
+        <MappingFragment StoreEntitySet="tblSolutionComponent">
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="parentID" ColumnName="parentID" />
+          <ScalarProperty Name="solutionID" ColumnName="solutionID" />
+          <ScalarProperty Name="componentTypeID" ColumnName="componentTypeID" />
+          <ScalarProperty Name="componentDescription" ColumnName="componentDescription" />
+          <ScalarProperty Name="componentMockupPageName" ColumnName="componentMockupPageName" />
+          <ScalarProperty Name="componentUrl" ColumnName="componentUrl" />
+          <ScalarProperty Name="componentTitle" ColumnName="componentTitle" />
+          <ScalarProperty Name="componentID" ColumnName="componentID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblNotes">
+      <EntityTypeMapping TypeName="Streemline3_1Model.tblNote">
+        <MappingFragment StoreEntitySet="tblNote">
+          <ScalarProperty Name="MasterObjectId" ColumnName="MasterObjectId" />
+          <ScalarProperty Name="ObjectTitle" ColumnName="ObjectTitle" />
+          <ScalarProperty Name="PersonID" ColumnName="PersonID" />
+          <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+          <ScalarProperty Name="sourceIDBIG" ColumnName="sourceIDBIG" />
+          <ScalarProperty Name="sourceId" ColumnName="sourceId" />
+          <ScalarProperty Name="noteTypeId" ColumnName="noteTypeId" />
+          <ScalarProperty Name="messageID" ColumnName="messageID" />
+          <ScalarProperty Name="timesheetEntryID" ColumnName="timesheetEntryID" />
+          <ScalarProperty Name="workflowID" ColumnName="workflowID" />
+          <ScalarProperty Name="noteTitle" ColumnName="noteTitle" />
+          <ScalarProperty Name="emailAddress" ColumnName="emailAddress" />
+          <ScalarProperty Name="IsPublic" ColumnName="IsPublic" />
+          <ScalarProperty Name="systemCreated" ColumnName="systemCreated" />
+          <ScalarProperty Name="lastEditDate" ColumnName="lastEditDate" />
+          <ScalarProperty Name="lastEditByID" ColumnName="lastEditByID" />
+          <ScalarProperty Name="createdByID" ColumnName="createdByID" />
+          <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+          <ScalarProperty Name="objectID" ColumnName="objectID" />
+          <ScalarProperty Name="objectTypeID" ColumnName="objectTypeID" />
+          <ScalarProperty Name="noteText" ColumnName="noteText" />
+          <ScalarProperty Name="noteID" ColumnName="noteID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tblFileAttachments">
+      <EntityTypeMapping TypeName="Streemline3_1Model.tblFileAttachment">
+        <MappingFragment StoreEntitySet="tblFileAttachment">
+          <ScalarProperty Name="createdByID" ColumnName="createdByID" />
+          <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+          <ScalarProperty Name="savedAsFileName" ColumnName="savedAsFileName" />
+          <ScalarProperty Name="fileType" ColumnName="fileType" />
+          <ScalarProperty Name="originalFileName" ColumnName="originalFileName" />
+          <ScalarProperty Name="objectTypeID" ColumnName="objectTypeID" />
+          <ScalarProperty Name="itemID" ColumnName="itemID" />
+          <ScalarProperty Name="fileID" ColumnName="fileID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

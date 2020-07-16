@@ -1,0 +1,117 @@
+﻿@model ClientPortal.ViewModels.IssueCreateViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+
+    <div class="tab">
+        <h2>Add an Issue </h2>
+    </div>
+<asp:Label ID="lblDim" runat="server" Text=""></asp:Label>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+
+
+
+    @using (Html.BeginForm("Create", "Issues", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <body>
+            <div class="form-group">
+                <label>Give Your Issue a Title (This is how it will appear in lists):</label>
+                <br />
+                @Html.TextBoxFor(m => m.Issue.issueTitle, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Describe your issue: Please load only one idea per issue. (If you have more than one idea for this page,click save and add another).Why?</label>
+                <br />
+                @Html.TextAreaFor(m => m.Issue.issueDescription, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Page</label>
+                <br />
+                @Html.DropDownListFor(model => model.Issue.solutionComponentID, ViewBag.Components as SelectList)
+
+            </div>
+            <div class="form-group">
+                <label>Status</label>
+                <br />
+                @Html.DropDownListFor(m => m.Issue.issueStatusID, new SelectList(Model.Statuses, "statusID", "statusTitle", ""), "--select the Status--", htmlAttributes: new { @class = "form-control issuelist-filter", id = "statusID" })
+            </div>
+
+
+            <div class="form-group">
+                <label>URL</label>
+                <br />
+
+                @Html.TextBoxFor(m => m.Issue.IssueURL, new { Value = @Session["url"] })
+            </div>
+            <div class="form-group">
+                <label>Issue Type</label>
+                <br />
+                @Html.RadioButtonFor(m => m.Issue.issueTypeID, 1)
+                <label>Question</label>
+                <br />
+                @Html.RadioButtonFor(m => m.Issue.issueTypeID, 2, new { @checked = "checked" })
+                <label>Bug</label>
+                <br />
+                @Html.RadioButtonFor(m => m.Issue.issueTypeID, 6)
+                <label>To Do</label>
+                <br />
+                @Html.RadioButtonFor(m => m.Issue.issueTypeID, 7)
+                <label>Out Of Scope Change</label>
+                <br />
+                @Html.RadioButtonFor(m => m.Issue.issueTypeID, 8)
+                <label>SEO</label>
+                <br />
+                @Html.RadioButtonFor(m => m.Issue.issueTypeID, 11)
+                <label>Content</label>
+                <br />
+
+            </div>
+            <div class="form-group">
+                <label>Is this stopping you from completing your testing?</label>
+                <br />
+                Yes @Html.RadioButtonFor(m => m.Issue.IsCritical, "true")
+                No @Html.RadioButtonFor(m => m.Issue.IsCritical, "false", new { @checked = "checked" })
+
+
+                <p style="color:red;">(Tick "Yes" only if you can not continue with your testing.)</p>
+            </div>
+            <div class="form-group">
+
+                <label for="file-upload" class="custom-file-upload">
+                    Upload New Attachments
+                </label>
+                <br />
+                <td><input type="file" name="postedFile" /></td>
+                <br />
+
+            </div>
+            <div class="form-group">
+                <label>Pasted Screenshots</label>
+            </div>
+            @Html.HiddenFor(m => m.Issue.browserHeight, new { id = "h", Value = @Session["height"] })
+            @Html.HiddenFor(m => m.Issue.browserWidth, new { id = "w", Value = @Session["width"] })
+            @Html.HiddenFor(m => m.Issue.userAgent, new { id = "b", Value = @Session["browser"] })
+            @Html.HiddenFor(m => m.Issue.solutionId, new { id = "solutuionID", Value = @Session["solutionID"] })
+            <button type="submit" name="button" id="btnSaveClose" value="Save&Close">Save&Close</button>
+            <button type="submit" name="button" id="btnSaveAddAnother" value="Save and Add another">Save and Add another</button>
+            <button type="submit" name="button" id="btnSave" value="Save">Save</button>
+            <input type="button" name="button" id="btnCancel" value="Cancel" onclick="location.href='@Url.Action("solutionIssues", "Issues")?ID=' +@Session["solutionId"]" />
+        </body>
+
+    }
+
+
+<br />
+
+
+
+<div>
+    @Html.ActionLink("Go to issue list", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

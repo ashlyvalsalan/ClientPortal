@@ -1,0 +1,31 @@
+View Model
+**********************
+
+namespace ClientPortal.ViewModels
+{
+    public class IssueListViewModel
+    {
+        public IEnumerable<ClientPortal.Models.tblIssue> Issues { get; set; }
+        public string Selectedstatus { get; set; }
+        public IEnumerable<ClientPortal.Models.tblIssueStatu> Statuses { get; set; }
+    }
+}
+in the view pages
+@model ClientPortal.ViewModels.IssueListViewModel
+
+//controller
+  public ActionResult Index()
+        {
+            var tblIssues = db.tblIssues.Include(t => t.tblIssueType).Include(t => t.tblIssueCategory).Include(t => t.tblIssuePriority).Include(t => t.tblIssueStatu).ToList();
+            var tblstatus = db.tblIssueStatus.ToList();
+            var VM = new ClientPortal.ViewModels.IssueListViewModel
+            {
+                Issues = tblIssues,
+                Statuses=tblstatus
+                // Statuses = db.tblIssueStatus.All()
+
+            };
+            return View(VM);
+        }
+//index.html
+ @Html.DropDownListFor(x => Model.Selectedstatus, new SelectList(Model.Statuses, "statusID", "statusTitle", ""), htmlAttributes: new { @class = "form-control", id = "statusID" })

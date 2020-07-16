@@ -1,0 +1,65 @@
+﻿@model ClientPortal.ViewModels.LoginViewModel
+
+@{
+    ViewBag.Title = "Index";
+    if (Session["userId"] == null)
+    {
+        Response.Redirect("~/Issues/Login");
+    }
+}
+<script scr="~/Scripts/jquery-3.4.1.min.js"></script>
+
+    <body>
+        
+            <div class="tab">
+                <h2>  Solution List</h2>
+            </div>
+            <br />
+            <input type="text" id="idSearchstring" placeholder="Enter the search string here" />
+           <p>
+               &nbsp;
+           </p>
+            <div id="divList">
+                <table>
+                    <tr>
+                        <td>
+                            @foreach (var item in Model.Solutions)
+                            {
+                                <ul>
+
+                                    <li class="soluionList"> @Html.ActionLink(item.solutionTitle.ToString(), "solutionIssues", "Issues", new { id = item.solutionID }, null)</li>
+
+                                </ul>
+                            }
+                        </td>
+                    </tr>
+                </table>
+                
+            </div>
+     
+       
+      
+       
+    </body>
+    <script>
+        $(document).ready(function () {
+           
+            $("#idAddIssue").hide();
+            $("#idCancelledIssues").hide();
+             $("#idSearchstring").change(function () {
+                   var searchString =$(this).val();
+                    
+                    $.ajax({
+                        type: "Post",
+                        url: "/Issues/Search/?searchString="+searchString.toString(),
+
+                        success: function (response) {
+                            $("#divList").html(response);
+                        }
+                    });
+                });
+
+             });
+    </script>
+
+        

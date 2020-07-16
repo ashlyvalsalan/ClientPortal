@@ -1,0 +1,45 @@
+﻿@model ClientPortal.ViewModels.IssueListViewModel
+<table class="table" id="idTable" border="1">
+    
+    <tr>
+       
+        <th>
+
+            ID
+        </th>
+        <th>
+            Title
+        </th>
+
+        <th>
+            Type
+        </th>
+
+        <th>
+            Status
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model.Issues)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.issueID.ToString(), "Details", "Issues", new { id = item.issueID }, null)
+
+            </td>
+            <td>
+                @Html.ActionLink(item.issueTitle.ToString(), "Details", "Issues", new { id = item.issueID }, null)
+
+            </td>
+            <td>
+                @Model.Types.Where(type => type.typeID == item.issueTypeID).FirstOrDefault().typeTitle
+            </td>
+            <td>
+                @Model.Statuses.Where(s => s.statusID == item.issueStatusID).FirstOrDefault().ClientTitle
+            </td>
+
+        </tr>
+    }
+
+</table>

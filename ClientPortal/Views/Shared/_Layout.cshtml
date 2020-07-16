@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="~/Styles/layoutStylesheet.css" rel="stylesheet" />
+</head>
+@{ 
+    string solutionId = "";
+    Int32 solutionID = 0;
+    if (Session["solutionID"] != null)
+    {
+        solutionId = @Session["solutionID"].ToString();
+        // get this from the session object?
+        solutionID = Int32.Parse(solutionId);
+    }
+
+}
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+
+            <!--Navbar Header Start Here-->
+
+            <div class="navbar-header">
+                <img src="~/Images/logo2.png" />
+                <br />
+                <ul class="nav navbar-nav js-nav-add-active-class">
+                    @if (solutionID ==0)
+                    {
+                        solutionID = 92;
+                        <li class="active" id="idIssueList"><a href="/Issues/solutionIssues?ID=@solutionID">Issue List</a></li>
+                    }
+                    else if (solutionID != null && solutionID > 0)
+                    {
+                        <li class="active" id="idIssueList"><a href="/Issues/solutionIssues?ID=@solutionID">Issue List</a></li>
+                        <li class="active" id="idAddIssue"><a href="/Issues/CreateIssue?solutionID=@solutionID">Add Issue</a></li>
+                        <li class="active" id="idCancelledIssues"><a href="/Issues/cancelledIssues?solutionID=@solutionID">Recently Closed Issues</a></li>
+                    }
+                </ul>
+
+            </div>
+
+            <ul class="nav navbar-nav navbar-right">
+          
+                <li class="logout"><a href="@Url.Action("Logout","Issues")">Welcome @Session["username"] Logout</a></li>
+            </ul>
+            <!--Menu End Here-->
+
+    </nav>
+    </div>
+   
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+
+    </div>
+
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

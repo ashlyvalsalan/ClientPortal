@@ -1,0 +1,59 @@
+﻿@model ClientPortal.ViewModels.IssueListViewModel
+@{
+    ViewBag.Title = "Details";
+    var personlist = (ViewBag.personlist as List<Streemline3_1Poco.tblPerson>);
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<body>
+    <div class="tab">
+        <h2>Review Complete</h2>
+    </div>   
+            <div class="contentinner content-dashboard">
+                <div class="row-fluid">
+                    <div class="span9">
+                        <h4 class="widgettitle nomargin">Review Complete</h4>
+                        <div class="widgetcontent bordered">
+                            <p>
+                                To avoid confusion we do not make changes while you are reviewing, and also ask you not to review while we are under construction.
+                            </p>
+                            <p>
+                                Please confirm that you have completed your review and that...
+                            </p>
+                            <ol>
+                                <li>You have reviewed all functionality.</li>
+                                <li>This is your full and final list.</li>
+
+                            </ol>
+                            <p>When you complete your review you will no longer be able to upload issues - the site will be under construction.</p>
+                            <p>
+                                <input type="checkbox" id="cbConfirm" checked/>This is my full and final list of issues.
+                                <Button id="btnConfirm" runat="server">Confirm</Button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                $(document).ready(function () {
+                   
+                $("#btnConfirm").click(function () {
+                   
+                    $.ajax({
+                        type: "Post",
+                        url: "/Issues/statusChangeReviewComplete/",
+                        success: function (response) {
+                            location.href="/Issues/solutionIssues/?ID="+@Session["solutionId"]
+                        },
+
+
+                    });
+                });
+
+            });
+
+            </script>
+</body>
+
+

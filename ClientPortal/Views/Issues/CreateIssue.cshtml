@@ -1,0 +1,338 @@
+﻿@model ClientPortal.ViewModels.IssueCreateViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+
+<div class="tab">
+    <h2>Add an Issue </h2>
+</div>
+<asp:Label ID="lblDim" runat="server" Text=""></asp:Label>
+<tr>
+
+    @using (Html.BeginForm("Create", "Issues", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <body>
+
+            <div class="form-group">
+                <label>Give Your Issue a Title (This is how it will appear in lists):</label>
+                <br />
+                @Html.TextBoxFor(m => m.Issue.issueTitle, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Describe your issue: Please load only one idea per issue. (If you have more than one idea for this page,click save and add another).Why?</label>
+                <br />
+                @Html.TextAreaFor(m => m.Issue.issueDescription, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>Page</label>
+                <br />
+                @Html.DropDownListFor(model => model.Issue.solutionComponentID, new SelectList(Model.Components, "componentID", "componentTitle", ""), "--Select the Page--", htmlAttributes: new { @class = "form-control issuelist-filter", id = "componentID" })
+            </div>
+            <div class="form-group">
+                <label>Status</label>
+                <br />
+                @Html.DropDownListFor(model => model.Issue.issueStatusID, new SelectList(Model.Statuses, "statusID", "statusTitle", ""), "--Select the Status--", htmlAttributes: new { @class = "form-control issuelist-filter", id = "statusID" })
+            </div>
+
+            <div class="form-group">
+                <label>Issue Type</label>
+                <br />
+                @Html.RadioButtonFor(m => m.Issue.issueTypeID, 1)
+                <label>Question</label>
+                <br />
+                @Html.RadioButtonFor(m => m.Issue.issueTypeID, 2)
+                <label>Bug</label>
+                <br />
+                @Html.RadioButtonFor(m => m.Issue.issueTypeID, 6)
+                <label>To Do</label>
+                <br />
+                @Html.RadioButtonFor(m => m.Issue.issueTypeID, 7)
+                <label>Out Of Scope Change</label>
+                <br />
+                @Html.RadioButtonFor(m => m.Issue.issueTypeID, 8)
+                <label>SEO</label>
+                <br />
+                @Html.RadioButtonFor(m => m.Issue.issueTypeID, 11)
+                <label>Content</label>
+                <br />
+
+            </div>
+            <div class="form-group">
+                <label>Is this stopping you from completing your testing?</label>
+                <br />
+                Yes @Html.RadioButtonFor(m => m.Issue.IsCritical, "true")
+                No @Html.RadioButtonFor(m => m.Issue.IsCritical, "false")
+
+
+                <p style="color:red;">(Tick "Yes" only if you can not continue with your testing.)</p>
+            </div>
+            <div class="form-group">
+
+                <label for="file-upload" class="custom-file-upload">
+                    Upload New Attachments
+                </label>
+                <br />
+                <td><input type="file" name="postedFile" /></td>
+                <br />
+
+            </div>
+            <div class="form-group">
+
+                <label>Pasted Screenshots</label>
+                <div id="fileAttachmentList">
+
+                </div>
+                <div style="display:none;">
+                    <canvas style="" id="my_canvas" width="1" height="1"></canvas>
+                    <script>
+                        $(document).ready(function () {
+
+
+                            var s7CLIPBOARD = new CLIPBOARD_CLASS("my_canvas", true);
+
+
+                            function CLIPBOARD_CLASS(canvas_id, autoresize) {
+                                var _self = this;
+                                var canvas = document.getElementById(canvas_id);
+                                // var ctx = document.getElementById(canvas_id).getContext("2d");
+                                var ctx = canvas.getContext("2d");
+                                var ctrl_pressed = false;
+                                var reading_dom = false;
+                                var text_top = 15;
+                                var pasteCatcher;
+                                var paste_mode;
+
+                                //handlers
+                                document.addEventListener('keydown', function (e) {
+                                    _self.on_keyboard_action(e);
+                                }, false); //firefox fix
+                                document.addEventListener('keyup', function (e) {
+                                    _self.on_keyboardup_action(e);
+                                }, false); //firefox fix
+                                document.addEventListener('paste', function (e) {
+                                    _self.paste_auto(e);
+                                }, false); //official paste handler
+
+                                //constructor - prepare
+                                this.init = function () {
+                                    //if using auto
+                                    if (window.Clipboard)
+                                        return true;
+
+                                    pasteCatcher = document.createElement("div");
+                                    pasteCatcher.setAttribute("id", "paste_ff");
+                                    pasteCatcher.setAttribute("contenteditable", "");
+                                    pasteCatcher.style.cssText = 'opacity:0;position:fixed;top:0px;left:0px;';
+                                    pasteCatcher.style.marginLeft = "-20px";
+                                    pasteCatcher.style.width = "10px";
+                                    document.body.appendChild(pasteCatcher);
+                                    document.getElementById('paste_ff').addEventListener('DOMSubtreeModified', function () {
+                                        if (paste_mode == 'auto' || ctrl_pressed == false)
+                                            return true;
+                                        //if paste handle failed - capture pasted object manually
+                                        if (pasteCatcher.children.length == 1) {
+                                            if (pasteCatcher.firstElementChild.src != undefined) {
+                                                //image
+                                                _self.paste_createImage(pasteCatcher.firstElementChild.src);
+                                            }
+                                        }
+                                        //register cleanup after some time.
+                                        setTimeout(function () {
+                                            pasteCatcher.innerHTML = '';
+                                        }, 20);
+                                    }, false);
+                                }();
+                                //default paste action
+                                this.paste_auto = function (e) {
+                                    paste_mode = '';
+                                    if (pasteCatcher) {
+                                        pasteCatcher.innerHTML = '';
+                                    }
+                                    var plain_text_used = false;
+                                    if (e.clipboardData) {
+                                        var items = e.clipboardData.items;
+                                        if (items) {
+                                            paste_mode = 'auto';
+                                            //access data directly
+                                            for (var i = 0; i < items.length; i++) {
+                                                if (items[i].type.indexOf("image") !== -1) {
+                                                    //image
+                                                    var blob = items[i].getAsFile();
+                                                    var URLObj = window.URL || window.webkitURL;
+                                                    var source = URLObj.createObjectURL(blob);
+                                                    this.paste_createImage(source, blob);
+                                                }
+                                            }
+                                            //e.preventDefault();
+                                        }
+                                        else {
+                                            //wait for DOMSubtreeModified event
+                                            //https://bugzilla.mozilla.org/show_bug.cgi?id=891247
+                                        }
+                                    }
+                                };
+                                //on keyboard press -
+                                this.on_keyboard_action = function (event) {
+                                    k = event.keyCode;
+                                    //ctrl
+                                    if (k == 17 || event.metaKey || event.ctrlKey) {
+                                        if (ctrl_pressed == false)
+                                            ctrl_pressed = true;
+                                    }
+                                    //c
+                                    if (k == 86) {
+                                        if (document.activeElement != undefined && (document.activeElement.type == 'text' || document.activeElement.type == 'textarea')) {
+                                            //let user paste into some input
+                                            return false;
+                                        }
+
+                                        if (ctrl_pressed == true && !window.Clipboard)
+                                            pasteCatcher.focus();
+                                    }
+                                };
+                                //on kaybord release
+                                this.on_keyboardup_action = function (event) {
+                                    k = event.keyCode;
+                                    //ctrl
+                                    if (k == 17 || event.metaKey || event.ctrlKey || event.key == 'Meta')
+                                        ctrl_pressed = false;
+                                };
+                                //draw image
+                                this.paste_createImagePhil = function (source, blob) {
+
+                                    var pastedImage = new Image();
+                                    pastedImage.onload = function () {
+                                        var itemid = 0;
+                                        var objecttypeId = 11;
+
+                                        //var Pic;
+                                        //Pic.toDataURL("image/png") = document.getElementById('hdnfld').value;
+                                        //Pic = Pic.replace(/^data:image\/(png|jpg);base64,/, "")
+
+
+
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: "/Issues/UploadImage/",
+                                            data: '{"itemId" :"' + itemid + '","objectTypeId":"' + objecttypeId + '","imageData":"' + imageData + '" }',
+                                            contentType: 'application/json; charset=utf-8',
+                                            dataType: 'json',
+                                            success: function (msg) {
+                                                alert(msg);
+                                            },
+                                            error: function (msg) {
+                                                alert(msg);
+                                            }
+
+
+                                        });
+
+
+                                        //if(autoresize == true){
+                                        //    //resize canvas
+                                        //    canvas.width = pastedImage.width;
+                                        //    canvas.height = pastedImage.height;
+                                        //}
+                                        //else{
+                                        //    //clear canvas
+                                        //    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                                        //}
+                                        //ctx.drawImage(pastedImage, 0, 0);
+                                    };
+                                    pastedImage.src = source;
+
+
+
+                                };
+                                this.paste_createImage = function (source) {
+                                    var pastedImage = new Image();
+                                    pastedImage.onload = function () {
+                                        if (autoresize == true) {
+                                            //resize canvas
+                                            canvas.width = pastedImage.width;
+                                            canvas.height = pastedImage.height;
+                                        }
+                                        else {
+                                            //clear canvas
+                                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                                        }
+                                        ctx.drawImage(pastedImage, 0, 0);
+
+                                        var imageData = ctx.canvas.toDataURL("image/png");
+                                        //Pic.toDataURL("image/png") = canvas.value;
+                                        imageData = imageData.replace(/^data:image\/(png|jpg);base64,/, "")
+
+                                        var itemid = 0;
+                                        var objecttypeId = 11;
+
+
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: "/Issues/UploadImage/",
+                                            //url: "/Issues/UploadImage/?itemId=" + itemid + "&objectTypeId=" + objecttypeId + "&imageData=" +imageData,
+                                            data: '{"itemId" :"' + itemid + '" ,"objectTypeId":"' + objecttypeId + '" ,"imageData":"' + imageData + '" }',
+                                            contentType: 'application/json; charset=utf-8',
+                                            dataType: 'json',
+                                            success: function (msg) {
+                                                alert(msg);
+                                            },
+                                            error: function (msg) {
+                                                alert(msg);
+                                            }
+
+
+                                        });
+                                    };
+                                    pastedImage.src = source;
+                                    $("#fileAttachmentList").append("<p><img src='" + source + "' style='max-width:100px;max-height:100px;'/>image.png</p>");
+                                };
+                            }
+                        });
+
+
+                    </script>
+
+                </div>
+
+            </div>
+
+            @Html.HiddenFor(m => m.Issue.browserHeight, new { id = "h", Value = @Session["height"] })
+            @Html.HiddenFor(m => m.Issue.browserWidth, new { id = "w", Value = @Session["width"] })
+            @Html.HiddenFor(m => m.Issue.userAgent, new { id = "b", Value = @Session["browser"] })
+            @Html.HiddenFor(m => m.Issue.solutionId, new { id = "solutuionID", Value = @Session["solutionID"] })
+            <button type="submit" name="button" id="btnSaveClose" value="Save&Close">Save&Close</button>
+            <button type="submit" name="button" id="btnSaveAddAnother" value="Save and Add another">Save and Add another</button>
+            <button type="submit" name="button" id="btnSave" value="Save">Save</button>
+            <input type="button" name="button" id="btnCancel" value="Cancel" onclick="location.href='@Url.Action("solutionIssues", "Issues")?ID=' +@Session["solutionId"]" />
+
+
+        </body>
+
+
+    }
+
+</tr>
+
+
+
+
+<br />
+
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#idAddIssue").hide();
+    });
+</script>
+

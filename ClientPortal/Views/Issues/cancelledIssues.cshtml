@@ -1,0 +1,84 @@
+﻿
+@model ClientPortal.ViewModels.IssueListViewModel
+
+@{
+    ViewBag.Title = "Index";
+   
+
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-migrate-1.4.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+<body>
+    <nav>
+
+    </nav>
+    <div class="tab">
+        <h2>Recently closed Issues</h2>
+    </div>
+    <br />
+  
+    <div id="divissueClient">
+        <table class="table" id="idTable" border="1">
+            <br />
+            <tr>
+                <th>
+
+                    ID
+                </th>
+                <th>
+                    Title
+                </th>
+
+                <th>
+                    Type
+                </th>
+
+                <th>
+                    Status
+                </th>
+                <th>
+                    Modified Date
+                </th>
+
+            </tr>
+            <br />
+            @foreach (var item in Model.Issues)
+            {
+                <tr>
+                    <div class="issue-link">
+                        <td>
+                            @Html.ActionLink(item.issueID.ToString(), "Details", "Issues", new { id = item.issueID }, null)
+
+                        </td>
+                        <td>
+                            @Html.ActionLink(item.issueTitle.ToString(), "Details", "Issues", new { id = item.issueID }, null)
+
+                        </td>
+                    </div>
+
+                    <td>
+                        @Model.Types.Where(type => type.typeID == item.issueTypeID).FirstOrDefault().typeTitle
+                    </td>
+                    <td>
+                        @Model.Statuses.Where(s => s.statusID == item.issueStatusID).FirstOrDefault().ClientTitle
+                    </td>
+                    <td>
+                        @Convert.ToString(string.Format("{0:dd/MM/yyyy}", @item.ModifiedDate))
+                      
+
+                    </td>
+
+                </tr>
+            }
+
+        </table>
+
+    </div>
+ 
+
+    <br />
+</body>

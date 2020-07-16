@@ -1,0 +1,41 @@
+﻿.navbar-inverse {
+    background-color: #000;
+    border-color: #080808;
+}
+.navbar {color:#fff;}
+.navbar-header img{margin-top:10px;}
+/*body {
+    padding-top: 0px;
+}
+
+.container-fluid {
+    padding-top: 0px;
+    padding-left:0px;
+   
+    left:0px;
+    font-size: larger;
+}
+
+li {
+    color: white;
+    left:0px;
+    font-size: larger;
+    font-weight: bold;
+    top:7px;
+}
+
+  
+ nav {
+        width: 1900px;
+        height: 90px;
+        padding-left: 0px;
+    }
+ nav.navbar-header {
+        left:0px;
+        
+    }
+    nav.navbar-header ul{
+        top:0px;
+    }
+
+*/
