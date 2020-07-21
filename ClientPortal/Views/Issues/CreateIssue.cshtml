@@ -43,7 +43,7 @@
                 @Html.RadioButtonFor(m => m.Issue.issueTypeID, 1)
                 <label>Question</label>
                 <br />
-                @Html.RadioButtonFor(m => m.Issue.issueTypeID, 2)
+                @Html.RadioButtonFor(m => m.Issue.issueTypeID, 2, new { @checked = "checked" })
                 <label>Bug</label>
                 <br />
                 @Html.RadioButtonFor(m => m.Issue.issueTypeID, 6)
@@ -64,7 +64,7 @@
                 <label>Is this stopping you from completing your testing?</label>
                 <br />
                 Yes @Html.RadioButtonFor(m => m.Issue.IsCritical, "true")
-                No @Html.RadioButtonFor(m => m.Issue.IsCritical, "false")
+                No @Html.RadioButtonFor(m => m.Issue.IsCritical, "false", new { @checked = "checked" })
 
 
                 <p style="color:red;">(Tick "Yes" only if you can not continue with your testing.)</p>

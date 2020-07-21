@@ -136,6 +136,7 @@ namespace ClientPortal.Controllers
             var statusid = issueList.issueStatusID;
             var issueStatus = pocoDb.Fetch<tblIssueStatus>("Where statusID=@0", statusid).FirstOrDefault();
             ViewBag.statustitle = issueStatus.statusTitle;
+            ViewBag.clientTitle = issueStatus.ClientTitle;
 
             //getting notes
             //var tblNote = db.tblNotes.Where(a => a.objectTypeID == 11 && a.objectID == id).ToList();
