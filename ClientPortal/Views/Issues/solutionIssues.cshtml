@@ -3,6 +3,7 @@
 
 @{
     ViewBag.Title = "Index";
+    
 
 }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -16,9 +17,11 @@
 
     </nav>
     <div class="tab">
-        <h2>@Session["solutionTitle"]:Issue Lists </h2>
+        <h2>@Model.Solutions.solutionTitle:Issue Lists </h2>
     </div>
     <br />
+
+
     <div class="alert alert-info" runat="server" id="alertClientReview">
         <strong>Project in Client Review: </strong>When you have reviewed your site, and added/updated all issues , @Html.ActionLink("Click Here", "reviewComplete", "Issues", null)
     </div>
@@ -26,66 +29,85 @@
         <strong>Project under Construction: </strong>We are working on the site so it will appear strangely.  Do not add any bugs during this phase.
         <Button ID="btnPushToClient" runat="server" visible='false'>PUSH BACK TO CLIENT</Button>
     </div>
-    <div id="divissueClient">
-        <table class="table" id="idTable" border="1">
-            <br />
-            <tr>
-                <th>
 
-                    ID
-                </th>
-                <th>
-                    Title
-                </th>
-
-                <th>
-                    Type
-                </th>
-
-                <th>
-                    Status
-                </th>
-
-            </tr>
-            <br />
-            @foreach (var item in Model.clientIssues)
-            {
+    @if(@Model.clientIssues.Count() !=0)
+    {
+        <div id="divissueClient">
+            <table class="table" id="idTable" border="1">
+                <br />
                 <tr>
-                    <div class="issue-link">
-                        <td>
-                            @Html.ActionLink(item.issueID.ToString(), "Details", "Issues", new { id = item.issueID }, null)
+                    <th>
 
-                        </td>
-                        <td>
-                            @Html.ActionLink(item.issueTitle.ToString(), "Details", "Issues", new { id = item.issueID }, null)
+                        ID
+                    </th>
+                    <th>
+                        Title
+                    </th>
 
-                        </td>
-                    </div>
+                    <th>
+                        Type
+                    </th>
 
-                    <td>
-                        @Model.Types.Where(type => type.typeID == item.issueTypeID).FirstOrDefault().typeTitle
-                    </td>
-                    <td>
-                        @Model.Statuses.Where(s => s.statusID == item.issueStatusID).FirstOrDefault().ClientTitle
-                    </td>
+                    <th>
+                        Status
+                    </th>
 
                 </tr>
-            }
+                <br />
+                @foreach (var item in Model.clientIssues)
+                {
+                    <tr>
+                        <div class="issue-link">
+                            <td>
+                                @Html.ActionLink(item.issueID.ToString(), "Details", "Issues", new { id = item.issueID }, null)
 
-        </table>
+                            </td>
+                            <td>
+                                @Html.ActionLink(item.issueTitle.ToString(), "Details", "Issues", new { id = item.issueID }, null)
+
+                            </td>
+                        </div>
+
+                        <td>
+                            @Model.Types.Where(type => type.typeID == item.issueTypeID).FirstOrDefault().typeTitle
+                        </td>
+                        <td>
+                            @Model.Statuses.Where(s => s.statusID == item.issueStatusID).FirstOrDefault().ClientTitle
+                        </td>
+
+                    </tr>
+                }
+
+            </table>
+
+        </div>
+    }
+    else
+    {
+        <apan>No Issues for Client</apan>
+    }
+
+<div class="tab">
+    <h2>Search Issues</h2>
+    <div class="container">
+        <div class="col-sm-4">
+            @Html.DropDownListFor(x => Model.SelectedComponents, new SelectList(Model.Components, "componentID", "componentTitle", ""), "--select the Page--", htmlAttributes: new { @class = "form-control", id = "componentID" })
+        </div>
+        <div class="col-sm-4">
+            <input type="checkbox" id="cbConfirm" />Include Closed
+        </div>
+        <div class="col-sm-4">
+            <button id="btnSearch">Search</button>
+        </div>
+    </div>   
+
+</div>
+    <div id="divList">
 
     </div>
-    <div class="tab">
-        <h2>Search Issues</h2>
-        @Html.DropDownListFor(x => Model.SelectedComponents, new SelectList(Model.Components, "componentID", "componentTitle", ""), "--select the Page--", htmlAttributes: new { @class = "form-control", id = "componentID" })<input type="checkbox" id="cbConfirm" />Include Closed
-        <button id="btnSearch">Search</button>
 
-    </div>
-   <div id="divList">
-
-   </div>
     <br />
-   
+
 
     <script>
 
@@ -96,19 +118,22 @@
             $("#alertClientReview").hide();
             $("#alertUnderConstruction").hide();
             $("#btnPushToClient").hide();
-            var statusid =@Session["statusID"];
-            var companyId=@Session["companyId"];
-            if (statusid == 1) {
-                $("#alertClientReview").show();
-                $("#alertUnderConstruction").hide();
-            }
-            if (statusid == 2) {
-                $("#alertUnderConstruction").show();
-                $("#alertClientReview").hide();
+            var statusid =@Model.Solutions.statusId;
+                var companyId =@Model.Solutions.clientID;
                 if (companyId == 1) {
-                    $("#btnPushToClient").show();
+                    if (statusid == 1) {
+                        $("#alertClientReview").show();
+                        $("#alertUnderConstruction").hide();
+                    }
+                    if (statusid == 2) {
+                        $("#alertUnderConstruction").show();
+                        $("#alertClientReview").hide();
+                        if (companyId == 1) {
+                            $("#btnPushToClient").show();
+                        }
+                    }
                 }
-            }
+
             }
 
 
@@ -116,7 +141,7 @@
 
                     $.ajax({
                         type: "Post",
-                        url: "/Issues/statusChangePushToClient/?solutionID="+@Session["solutionId"],
+                        url: "/Issues/statusChangePushToClient/?solutionID="+@Model.Solutions.solutionID,
                         success: function (response) {
                             $("#alertClientReview").show();
                             $("#alertUnderConstruction").hide();
@@ -134,15 +159,15 @@
                 }
                 $.ajax({
                     type: "Post",
-                    url: "/Issues/filterStatus/?componentID=" + componentID + "&solutionID=" +@Session["solutionId"]+"&checkbox=" + checkBox,
+                    url: "/Issues/filterStatus/?componentID=" + componentID + "&solutionID=" +@Model.Solutions.solutionID+"&checkbox=" + checkBox,
                     success: function (response) {
                             $("#divList").html(response);
                         }
-                                                                                                                                
-            
+
+
                     });
             });
-            
+
 
             $(".issuelist-filter").change(function () {
                 var componentID = $('#componentId').val();
@@ -156,28 +181,15 @@
 
                     $.ajax({
                         type: "Post",
-                        url: "/Issues/filterStatusIssues/?componentID=" + componentID + "&statusTitle=" + statusTitle + "&solutionID=" +@Session["solutionId"],
+                        url: "/Issues/filterStatusIssues/?componentID=" + componentID + "&statusTitle=" + statusTitle + "&solutionID=" +@Model.Solutions.solutionID,
 
                         success: function (response) {
                             $("#divList1").html(response);
                         }
-                                                                                                                                
-            
                     });
                  });
-        
-        
               });
 
     </script>
-
-
     <br />
-
-   
-
-
-
-
-
 </body>

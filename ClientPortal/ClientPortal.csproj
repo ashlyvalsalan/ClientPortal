@@ -133,6 +133,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CheckAuthorisation.cs" />
     <Compile Include="Models\Generated\Database.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -147,6 +148,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\IssueCreateViewModel.cs" />
+    <Compile Include="ViewModels\IssueDetailViewModel.cs" />
     <Compile Include="ViewModels\IssueListViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
   </ItemGroup>
@@ -222,6 +224,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\custom.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -296,23 +299,21 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Issues\Create.cshtml" />
     <Content Include="Views\Issues\Delete.cshtml" />
     <Content Include="Views\Issues\Details.cshtml" />
-    <Content Include="Views\Issues\Edit.cshtml" />
     <Content Include="Views\Issues\Index.cshtml" />
     <Content Include="Views\Issues\filterStatus.cshtml" />
     <Content Include="Views\Issues\solutionIssues.cshtml" />
-    <Content Include="Views\Issues\Go.cshtml" />
     <Content Include="Views\View.cshtml" />
-    <Content Include="Views\Issues\Login.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Issues\Search.cshtml" />
     <Content Include="Views\Issues\UploadFiles.cshtml" />
     <Content Include="Views\Issues\CreateIssue.cshtml" />
     <Content Include="Views\Issues\reviewComplete.cshtml" />
     <Content Include="Views\Issues\filterStatusIssues.cshtml" />
     <Content Include="Views\Issues\cancelledIssues.cshtml" />
+    <Content Include="Views\Home\SignInRemember.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

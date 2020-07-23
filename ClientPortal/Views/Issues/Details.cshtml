@@ -1,36 +1,32 @@
-﻿@model ClientPortal.ViewModels.IssueListViewModel
+﻿@model ClientPortal.ViewModels.IssueDetailViewModel
 
 @{
     ViewBag.Title = "Details";
-   
-    
-        var personlist = (ViewBag.personlist as List<Streemline3_1Poco.tblPerson>);
-    
-
 
 }
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+<style>
+    #idIssueList {
+        list-style-type: none;
+    }
+</style>
 <body>
-    <div class="tab">
-        <h2>@ViewBag.issuetitle :Issue Details[@ViewBag.clientTitle]</h2>
-    </div>
-    <div>
 
+    <div class="container">
+        <h1>@Model.Issue.issueID @Model.Issue.issueTitle Status:[@Model.IssueStatus.ClientTitle]</h1>
         <hr />
-        <dl class="dl-horizontal">
+        <div class="col-sm-8">
+
+
             @using (Html.BeginForm("AddNote", "Issues", FormMethod.Post))
             {
-                <dt>
-                    <p>Issue Decription</p>
-                </dt>
 
-                <dd>
-                    @ViewBag.issueDescription
-                </dd>
+                <h4>Details</h4>
+                <p>@Model.Issue.issueDescription</p>
 
-                @Html.HiddenFor(m => m.Note.objectID, new { @Value = @Session["issueId"] })
+
+                @Html.HiddenFor(m => m.Note.objectID, new { @Value = Model.Issue.issueID })
 
                 <h4>Add Comments</h4>
 
@@ -41,62 +37,63 @@
                 <input type="submit" id="addComments" value="Add" />
                 <br />
             }
-            <table class="table">
-                <tr>
-                    <th>Date</th>
-                    <th>Note</th>
-                    <th>By</th>
-
-
-                </tr>
-
-
-                @foreach (var item in Model.Notes)
-                {
-
-                    var person = personlist.FirstOrDefault(x => x.PersonID == item.createdByID);
-
-
+            @if (Model.Notes.Count() != 0)
+            {
+                <table class="table">
                     <tr>
-                        @if (person != null)
-                        {
-                            <td>
-
-                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.createdDate))
-
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.noteText)
-                            </td>
-                            <td>
-
-                                @person.FirstName @person.LastName
-
-
-                            </td>
-                        }
+                        <th>Date</th>
+                        <th>Note</th>
+                        <th>By</th>
                     </tr>
 
-                }
+                    @foreach (var item in Model.Notes)
+                    {
+                        var person = Model.People.FirstOrDefault(x => x.PersonID == item.createdByID);
 
-            </table>
-            @*
-                @Html.ActionLink("Return to list", "solutionIssues", "Issues", new { ID = @Session["issueId"] }, null)
-            *@
+                        <tr>
+                            @if (person != null)
+                            {
+                                <td>
+                                    @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.createdDate))
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.noteText)
+                                </td>
+                                <td>
+                                    @person.FirstName @person.LastName
+                                </td>
+                            }
+                        </tr>
 
-            <label>
+                    }
+
+                </table>
+            }
+            else
+            {
+                <span>No Notes</span>
+            }
+        </div>
+        <div class="col-sm-4">
+
+            <h4>
                 Attachments
-            </label>
+            </h4>
             <p id="uploadedFiles">
-
-                @foreach (var item in Model.Attachments)
+                @if (Model.Attachments.Any())
                 {
+                    foreach (var item in Model.Attachments)
+                    {
 
-                    <a href=" @Url.Content("~/taskItUploads/" + System.IO.Path.GetFileName(item.originalFileName))">@System.IO.Path.GetFileName(item.originalFileName)</a>
-                    <br />
+                        <a href="@Url.Content("~/taskItUploads/" + System.IO.Path.GetFileName(item.originalFileName))" target="_blank">@System.IO.Path.GetFileName(item.originalFileName)</a>
+                        <br />
+
+                    }
                 }
-                <br />
-                <br />
+                else
+                {
+                    <span>No attachments</span>
+                }
                 <br />
                 <label for="file-upload" id="" class="custom-file-upload">
                     Upload New Attachments
@@ -104,44 +101,39 @@
                 <br />
                 <input type="file" id="FileUpload1" />
                 <input type="button" id="btnUpload" value="Upload Files" />
-
                 <br />
                 <label id="lblSuccess"></label>
-                <br />
             </p>
 
-
-        </dl>
-        <br />
-        @if (Convert.ToInt32(@Session["statusID"]) == 11)
-        {
-            <input type="button" id="btnReopenIssue" value="Reopen this Issue" />
-        }
-        else if (Convert.ToInt32(@Session["statusID"]) == 13)
-        {
-
+            <br />
             <p>
-                <input type="button" id="btnReturn" value="Return to S7" />
-                <input type="button" id="btnMarkComplete" value="Mark complete" />
-            </p>
-        }
-        else if (Convert.ToInt32(@Session["statusID"]) == 14)
-        {
-            <p>
-                <input type="button" id="btnReturn" value="Return to S7" />
-                <input type="button" id="btnMarkComplete" value="Mark complete" />
+                @if (Convert.ToInt32(Model.Issue.issueStatusID) == 11)
+                {
+                    <input type="button" id="btnReopenIssue" value="Reopen this Issue" />
+                }
+                else if (Convert.ToInt32(Model.Issue.issueStatusID) == 13)
+                {
 
+                    <input type="button" id="btnReturn" value="Return to S7" />
+                    <input type="button" id="btnMarkComplete" value="Mark complete" />
+                }
+                else if (Convert.ToInt32(Model.Issue.issueStatusID) == 14)
+                {
+                    <input type="button" id="btnReturn" value="Return to S7" />
+                    <input type="button" id="btnMarkComplete" value="Mark complete" />
+
+                }
             </p>
-        }
-        else
-        {
-            <p></p>
-        }
-        <p>Created date</p>
-        @ViewBag.issueCreatedDate
-        <br /><br />
-        <p>Modified date</p>@ViewBag.issueModifiedDate
-        <script>
+            <p>Issue Created: @String.Format("{0:d MMM yyyy}", Model.Issue.CreatedDate)</p>
+
+
+            <p>Last Modified</p>@Model.Issue.ModifiedDate
+        </div>
+    </div>
+
+    <br />
+    <a href="/Issues/solutionIssues?ID=@Model.Issue.solutionId">Return To List</a>
+    <script>
             $(document).ready(function () {
                     $("#idAddIssue").hide();
                     $("#btnNewUpload").hide();
@@ -158,7 +150,7 @@
 
                     $.ajax({
                         type: "Post",
-                        url: "/Issues/filterStatus/?componentID=" + componentID + "&statusID=" + statusID + "&solutionID=" +@Session["solutionId"],
+                        url: "/Issues/filterStatus/?componentID=" + componentID + "&statusID=" + statusID + "&solutionID=" +@Model.Issue.solutionId,
 
                         success: function (response) {
                             $("#divList").html(response);
@@ -185,7 +177,7 @@
 
                             $.ajax({
                                 type: "POST",
-                                url: '/Issues/UploadFiles/?issueID=' +@Session["issueID"],
+                                url: '/Issues/UploadFiles/?issueID=' + @Model.Issue.issueID,
 
                                 contentType: false,
                                 processData: false,
@@ -209,8 +201,7 @@
 
                     $.ajax({
                         type: "Post",
-                        url: "/Issues/statusChangeOnReopenButtonClick/?issueID=" + @Session["issueID"],
-
+                        url: "/Issues/statusChangeOnReopenButtonClick/?issueID=" + @Model.Issue.issueID,
 
                     });
                     });
@@ -220,7 +211,7 @@
 
                     $.ajax({
                         type: "Post",
-                        url: "/Issues/statusChangeOnReturnLink/?issueID=" + @Session["issueID"],
+                        url: "/Issues/statusChangeOnReturnLink/?issueID=" + @Model.Issue.issueID,
 
                         success: function (response) {
                             $("#btnReturn").hide();
@@ -232,7 +223,7 @@
 
                     $.ajax({
                         type: "Post",
-                        url: "/Issues/statusChangeOnMarkComplete/?issueID=" + @Session["issueID"],
+                        url: "/Issues/statusChangeOnMarkComplete/?issueID=" + @Model.Issue.issueID,
 
                         success: function (response) {
                             $("#btnMarkComplete").hide();
@@ -242,8 +233,8 @@
                     });
 
             });
-        </script>
-    </div>
+    </script>
+
 
 </body>
 

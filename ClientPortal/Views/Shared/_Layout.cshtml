@@ -36,7 +36,7 @@
                         solutionID = 92;
                         <li class="active" id="idIssueList"><a href="/Issues/solutionIssues?ID=@solutionID">Issue List</a></li>
                     }
-                    else if (solutionID != null && solutionID > 0)
+                    else if (solutionID != 0 && solutionID > 0)
                     {
                         <li class="active" id="idIssueList"><a href="/Issues/solutionIssues?ID=@solutionID">Issue List</a></li>
                         <li class="active" id="idAddIssue"><a href="/Issues/CreateIssue?solutionID=@solutionID">Add Issue</a></li>
@@ -48,7 +48,7 @@
 
             <ul class="nav navbar-nav navbar-right">
           
-                <li class="logout"><a href="@Url.Action("Logout","Issues")">Welcome @Session["username"] Logout</a></li>
+                <li class="logout"><a href="@Url.Action("Logout","Home")">Welcome @Session["username"] Logout</a></li>
             </ul>
             <!--Menu End Here-->
 

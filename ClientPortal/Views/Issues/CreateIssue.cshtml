@@ -207,13 +207,6 @@
                                     pastedImage.onload = function () {
                                         var itemid = 0;
                                         var objecttypeId = 11;
-
-                                        //var Pic;
-                                        //Pic.toDataURL("image/png") = document.getElementById('hdnfld').value;
-                                        //Pic = Pic.replace(/^data:image\/(png|jpg);base64,/, "")
-
-
-
                                         $.ajax({
                                             type: 'POST',
                                             url: "/Issues/UploadImage/",
@@ -229,18 +222,6 @@
 
 
                                         });
-
-
-                                        //if(autoresize == true){
-                                        //    //resize canvas
-                                        //    canvas.width = pastedImage.width;
-                                        //    canvas.height = pastedImage.height;
-                                        //}
-                                        //else{
-                                        //    //clear canvas
-                                        //    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                                        //}
-                                        //ctx.drawImage(pastedImage, 0, 0);
                                     };
                                     pastedImage.src = source;
 
@@ -272,7 +253,6 @@
                                         $.ajax({
                                             type: 'POST',
                                             url: "/Issues/UploadImage/",
-                                            //url: "/Issues/UploadImage/?itemId=" + itemid + "&objectTypeId=" + objecttypeId + "&imageData=" +imageData,
                                             data: '{"itemId" :"' + itemid + '" ,"objectTypeId":"' + objecttypeId + '" ,"imageData":"' + imageData + '" }',
                                             contentType: 'application/json; charset=utf-8',
                                             dataType: 'json',
@@ -302,11 +282,11 @@
             @Html.HiddenFor(m => m.Issue.browserHeight, new { id = "h", Value = @Session["height"] })
             @Html.HiddenFor(m => m.Issue.browserWidth, new { id = "w", Value = @Session["width"] })
             @Html.HiddenFor(m => m.Issue.userAgent, new { id = "b", Value = @Session["browser"] })
-            @Html.HiddenFor(m => m.Issue.solutionId, new { id = "solutuionID", Value = @Session["solutionID"] })
+            @Html.HiddenFor(m => m.Issue.solutionId, new { id = "solutuionID", Value = @Model.solutions.solutionID})
             <button type="submit" name="button" id="btnSaveClose" value="Save&Close">Save&Close</button>
             <button type="submit" name="button" id="btnSaveAddAnother" value="Save and Add another">Save and Add another</button>
             <button type="submit" name="button" id="btnSave" value="Save">Save</button>
-            <input type="button" name="button" id="btnCancel" value="Cancel" onclick="location.href='@Url.Action("solutionIssues", "Issues")?ID=' +@Session["solutionId"]" />
+            <input type="button" name="button" id="btnCancel" value="Cancel" onclick="location.href='@Url.Action("solutionIssues", "Issues")?ID=' +@Model.solutions.solutionID" />
 
 
         </body>

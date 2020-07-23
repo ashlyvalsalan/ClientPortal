@@ -3,17 +3,23 @@
 @{
     Layout = null;
 }
-<table>
-    <tr>
-        <td>
-            @foreach (var item in Model.Solutions)
-            {
-                <ul>
+if(@Model.Solutions.Count()!=0)
+{
+    <table>
+        <tr>
+            <td>
+                @foreach (var item in Model.Solutions)
+                {
+                    <ul>
 
-                    <li class="soluionList"> @Html.ActionLink(item.solutionTitle.ToString(), "solutionIssues", "Issues", new { id = item.solutionID }, null)</li>
+                        <li class="soluionList"> @Html.ActionLink(item.solutionTitle.ToString(), "solutionIssues", "Issues", new { id = item.solutionID }, null)</li>
 
-                </ul>
-            }
-        </td>
-    </tr>
-</table>
+                    </ul>
+                }
+            </td>
+        </tr>
+    </table>
+}
+else{
+    <span>No Issues</span>
+}

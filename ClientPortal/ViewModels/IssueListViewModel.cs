@@ -11,7 +11,7 @@ namespace ClientPortal.ViewModels
         public IEnumerable<tblIssue> clientIssues { get; set; }
         public IEnumerable<tblIssue> clientIssuesExceptClosed { get; set; }
         public IEnumerable<tblIssueStatus> clientTitle { get; set; }
-        public IEnumerable<tblSolution> Solutions { get; set; }
+        public tblSolution Solutions { get; set; }
        
         public tblIssue Issue { get; set; }
         public tblNote Note { get; set; }

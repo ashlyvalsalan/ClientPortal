@@ -1,7 +1,4 @@
-﻿.field-validation-error {
-    color: crimson;
-}
-
+﻿
 html, body {
    
     background-size: cover;
@@ -52,14 +49,11 @@ input:focus {
     color: black;
     background-color: white;
 }
-
 ul{
     color:ghostwhite;
     padding-left:10px;
-    padding-top:10px;
-    
+    padding-top:10px;   
 }
-
 .tab {
     overflow: hidden;
     border: 1px solid #ccc;
@@ -70,11 +64,8 @@ table {
     border: 1px solid black;
     border-collapse: collapse;
     border-color: #f1f1f1;
-    width:1150px;
-   
-}
-
-    
+    width:1150px;  
+}    
 input[type=text], select {
     width: 100%;
     padding-top:15px;
