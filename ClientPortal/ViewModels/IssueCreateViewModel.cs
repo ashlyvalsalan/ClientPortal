@@ -12,7 +12,7 @@ namespace ClientPortal.ViewModels
         
         public tblIssue Issue { get; set; }
 
-        public tblSolution solutions { get; set; }
+        public tblSolution solution { get; set; }
         public IEnumerable<tblSolutionComponent> Component { get; set; }
         public IEnumerable<tblSolutionComponent> Components { get; set; }
 

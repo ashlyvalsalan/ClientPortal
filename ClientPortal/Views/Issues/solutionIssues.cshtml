@@ -1,10 +1,7 @@
 ﻿
 @model ClientPortal.ViewModels.IssueListViewModel
-
 @{
     ViewBag.Title = "Index";
-    
-
 }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
@@ -13,6 +10,24 @@
 <script src="~/Scripts/bootstrap.min.js"></script>
 
 <body>
+    <style>
+        table, td, th {
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 15px;
+        }
+        .conatiner{
+            
+        }       
+    </style>
     <nav>
 
     </nav>
@@ -30,10 +45,11 @@
         <Button ID="btnPushToClient" runat="server" visible='false'>PUSH BACK TO CLIENT</Button>
     </div>
 
-    @if(@Model.clientIssues.Count() !=0)
+    @if (@Model.clientIssues.Count() != 0)
     {
         <div id="divissueClient">
-            <table class="table" id="idTable" border="1">
+
+            <table class="table" id="idTable">
                 <br />
                 <tr>
                     <th>
@@ -87,21 +103,26 @@
         <apan>No Issues for Client</apan>
     }
 
-<div class="tab">
-    <h2>Search Issues</h2>
-    <div class="container">
-        <div class="col-sm-4">
-            @Html.DropDownListFor(x => Model.SelectedComponents, new SelectList(Model.Components, "componentID", "componentTitle", ""), "--select the Page--", htmlAttributes: new { @class = "form-control", id = "componentID" })
-        </div>
-        <div class="col-sm-4">
-            <input type="checkbox" id="cbConfirm" />Include Closed
-        </div>
-        <div class="col-sm-4">
-            <button id="btnSearch">Search</button>
-        </div>
-    </div>   
+    <div class="tab">
+        <h2>Search Issues</h2>
+        <div class="container">
 
-</div>
+            <div class="col-sm-8">
+
+                <div class="col-sm-4">
+                    @Html.DropDownListFor(x => Model.SelectedComponents, new SelectList(Model.Components, "componentID", "componentTitle", ""), "--select the Page--", htmlAttributes: new { @class ="form-control", id = "componentID" })
+                </div>
+                <div class="col-sm-4">
+                    <input type="checkbox" id="cbConfirm" />Include Closed
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <button id="btnSearch">Search</button>
+            </div>
+        </div>
+
+    </div>
     <div id="divList">
 
     </div>
@@ -168,27 +189,7 @@
                     });
             });
 
-
-            $(".issuelist-filter").change(function () {
-                var componentID = $('#componentId').val();
-                    var statusTitle = $('#statusID').val();
-                    if (!componentID) {
-                        componentID = 0;
-                    }
-                if (!statusTitle) {
-                        statusID = "";
-                    }
-
-                    $.ajax({
-                        type: "Post",
-                        url: "/Issues/filterStatusIssues/?componentID=" + componentID + "&statusTitle=" + statusTitle + "&solutionID=" +@Model.Solutions.solutionID,
-
-                        success: function (response) {
-                            $("#divList1").html(response);
-                        }
-                    });
-                 });
-              });
+         });
 
     </script>
     <br />

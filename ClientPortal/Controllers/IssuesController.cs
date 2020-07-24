@@ -17,13 +17,21 @@ namespace ClientPortal.Controllers
 
     public class IssuesController : Controller
     {
-
-        //private Streemline3_1Entities db = new Streemline3_1Entities();
         private db pocoDb = new db();
+     
 
-        public ActionResult Index(string UserName, string UserPassword)
+        public ActionResult Index()
         {
-
+            int id = 0;
+            string userPerson="";
+            if (Session["userId"] != null)
+            {
+               userPerson = Session["userId"].ToString();
+            }
+            id = int.Parse(userPerson);
+            var userInfo = pocoDb.Fetch<tblUser>(" WHERE userID=@0",id).FirstOrDefault();
+            var UserName = userInfo.userName;
+            var UserPassword = userInfo.userPassword;
             if (string.IsNullOrEmpty(UserName) || string.IsNullOrEmpty(UserPassword))
             {
                 return RedirectToAction("Login", "Home");
@@ -485,7 +493,7 @@ namespace ClientPortal.Controllers
             var tblstatus = pocoDb.Fetch<tblIssueStatus>("").ToList();
             var VM = new ClientPortal.ViewModels.IssueCreateViewModel
             {
-                solutions= solution,
+                solution= solution,
                 Components = tblComponent,
                 Statuses = tblstatus
             };
@@ -504,15 +512,7 @@ namespace ClientPortal.Controllers
             var solution = pocoDb.Fetch<tblSolution>("WHERE solutionID = @0", solutionID).FirstOrDefault();
             var tblComponent = pocoDb.Fetch<tblSolutionComponent>("WHERE solutionID = @0", solutionID);
             var tblstatus = pocoDb.Fetch<tblIssueStatus>("").ToList();
-            /* var selectedComponent = pocoDb.Fetch<tblSolutionComponent>(" where componentID = @0", componentid).FirstOrDefault();
-             int selectComponentId = selectedComponent.componentID;
-             string componentTitle = selectedComponent.componentTitle;
-
-             Session["componentId"] = componentid;
-             Session["componentTitle"] = componentTitle;
-             Session["url"] = url;
-             Session["solutionID"] = solutionid;
-            */
+         
             Session["height"] = h;
             Session["width"] = w;
             Session["browser"] = b;
@@ -521,7 +521,7 @@ namespace ClientPortal.Controllers
             {
 
                 Statuses = tblstatus,
-                solutions = solution
+                solution = solution
 
 
             };
@@ -542,13 +542,19 @@ namespace ClientPortal.Controllers
                 userid = Session["userId"].ToString();
             }
             int userID = int.Parse(userid);
+            int screenID=0;
             //getting the screenshotID
             string screenShotId = "";
             if (Session["screenshotid"] != null)
             {
                 screenShotId = Session["screenshotid"].ToString();
             }
-            int screenID = int.Parse(screenShotId);
+            if(screenShotId!="")
+            {
+                screenID = int.Parse(screenShotId);
+            }
+            
+            
             var person = pocoDb.Fetch<tblUser>(" WHERE userID = @0", userID).FirstOrDefault();
             var createdbyId = person.userID;
             var personid = person.PersonID.ToString();
@@ -587,9 +593,13 @@ namespace ClientPortal.Controllers
                     {
                         linkToTblattachment(issueId, postedFile);
                     }
-                    var screenattachments = pocoDb.Fetch<tblFileAttachment>(" WHERE fileID=@0", screenID).FirstOrDefault();
-                    screenattachments.itemID = issueId;
-                    pocoDb.Update(screenattachments);
+                   if( screenShotId != "")
+                    {
+                        var screenattachments = pocoDb.Fetch<tblFileAttachment>(" WHERE fileID=@0", screenID).FirstOrDefault();
+                        screenattachments.itemID = issueId;
+                        pocoDb.Update(screenattachments);
+                    }
+                    
 
                     if (button == "Save")
                     {

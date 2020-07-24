@@ -1,8 +1,5 @@
 ﻿using ClientPortal.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Streemline3_1Poco;
 using System.Web.Security;
@@ -43,7 +40,7 @@ namespace ClientPortal.Controllers
 
                         // If we got this far, something failed, redisplay form  
                         // return RedirectToAction("Index", "Dashboard");  
-                        return RedirectToAction("Index", "Issues", new { UserName= userInfo.userName, UserPassword = userInfo.userPassword });
+                        return RedirectToAction("Index", "Issues");
                     }
                     else
                     {

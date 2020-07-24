@@ -1,6 +1,8 @@
-﻿
+﻿.field-validation-error {
+    color: ghostwhite;
+}
+
 html, body {
-   
     background-size: cover;
     background-repeat: no-repeat;
     height: 100%;

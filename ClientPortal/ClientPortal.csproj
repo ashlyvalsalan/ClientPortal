@@ -224,7 +224,6 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\custom.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -311,7 +310,6 @@
     <Content Include="Views\Issues\UploadFiles.cshtml" />
     <Content Include="Views\Issues\CreateIssue.cshtml" />
     <Content Include="Views\Issues\reviewComplete.cshtml" />
-    <Content Include="Views\Issues\filterStatusIssues.cshtml" />
     <Content Include="Views\Issues\cancelledIssues.cshtml" />
     <Content Include="Views\Home\SignInRemember.cshtml" />
   </ItemGroup>

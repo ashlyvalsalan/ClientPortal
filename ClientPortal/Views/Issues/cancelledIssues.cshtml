@@ -13,6 +13,21 @@
 <script src="~/Scripts/bootstrap.min.js"></script>
 
 <body>
+    <style>
+        table, td, th {
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            padding: 15px;
+        }
+    </style>
     <nav>
 
     </nav>
@@ -20,7 +35,7 @@
         <h2>Recently closed Issues</h2>
     </div>
     <br />
-    @if (Model.Issues.Count() != 0)
+    @if (Model.Issues.Count()!=0)
     {
         <div id="divissueClient">
             <table class="table" id="idTable" border="1">

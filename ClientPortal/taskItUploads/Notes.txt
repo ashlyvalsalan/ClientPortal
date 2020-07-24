@@ -3,7 +3,7 @@ View Model
 
 namespace ClientPortal.ViewModels
 {
-    public class IssueListViewModel
+    public class IssueDetailViewModel
     {
         public IEnumerable<ClientPortal.Models.tblIssue> Issues { get; set; }
         public string Selectedstatus { get; set; }
@@ -11,14 +11,14 @@ namespace ClientPortal.ViewModels
     }
 }
 in the view pages
-@model ClientPortal.ViewModels.IssueListViewModel
+@model ClientPortal.ViewModels.IssueDetailViewModel
 
 //controller
   public ActionResult Index()
         {
             var tblIssues = db.tblIssues.Include(t => t.tblIssueType).Include(t => t.tblIssueCategory).Include(t => t.tblIssuePriority).Include(t => t.tblIssueStatu).ToList();
             var tblstatus = db.tblIssueStatus.ToList();
-            var VM = new ClientPortal.ViewModels.IssueListViewModel
+            var VM = new ClientPortal.ViewModels.IssueDetailViewModel
             {
                 Issues = tblIssues,
                 Statuses=tblstatus

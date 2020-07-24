@@ -19,6 +19,12 @@ namespace ClientPortal.ViewModels
         public List<tblPerson> People { get; set; }
         public IEnumerable<tblFileAttachment> Attachments { get; set; }
         public IEnumerable<tblPerson> Person { get; set; }
+        public tblSolution Solutions { get; set; }
+        public IEnumerable<tblIssueStatus> Statuses { get; set; }
+        public string SelectedComponents { get; set; }
+        public IEnumerable<tblSolutionComponent> Components { get; set; }
+        public IEnumerable<tblIssueType> Types { get; set; }
+      
 
 
     }
