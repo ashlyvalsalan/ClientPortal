@@ -53,3 +53,4 @@ C:\Users\User\source\repos\ClientPortal\ClientPortal\obj\Debug\ClientPortal.cspr
 C:\Users\User\source\repos\ClientPortal\ClientPortal\obj\Debug\ClientPortal.csproj.CopyComplete
 C:\Users\User\source\repos\ClientPortal\ClientPortal\obj\Debug\ClientPortal.dll
 C:\Users\User\source\repos\ClientPortal\ClientPortal\obj\Debug\ClientPortal.pdb
+C:\Users\User\source\repos\ClientPortal\ClientPortal\obj\Debug\ClientPortal.csprojAssemblyReference.cache

@@ -282,9 +282,9 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Styles\layoutStylesheet.css" />
     <Content Include="Styles\StyleSheet.css" />
-    <Content Include="taskItUploads\Capture.PNG" />
-    <Content Include="taskItUploads\CaptureTV.PNG" />
-    <Content Include="taskItUploads\Notes.txt" />
+    <Content Include="taskUploads\Capture.PNG" />
+    <Content Include="taskUploads\CaptureTV.PNG" />
+    <Content Include="taskUploads\Notes.txt" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -312,6 +312,7 @@
     <Content Include="Views\Issues\reviewComplete.cshtml" />
     <Content Include="Views\Issues\cancelledIssues.cshtml" />
     <Content Include="Views\Home\SignInRemember.cshtml" />
+    <Content Include="Views\Issues\fileDownload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -123,17 +123,25 @@ namespace ClientPortal.Controllers
 
         public ActionResult UploadFiles(int issueID)
         {
-
+            int userPersonID = 0;
 
             if (Request.Files.Count > 0)
-            { 
+            {
+                string userPerson = "";
+                if (Session["userId"] != null)
+                {
+                    userPerson = Session["userId"].ToString();
+                }
                 HttpFileCollectionBase files = Request.Files;
                 for (int i = 0; i < files.Count; i++)
                 {
                     HttpPostedFileBase file = files[i];
                     string fname;
                     fname = file.FileName;
-                    var path = Path.Combine(Server.MapPath("~/taskItUploads/"), fname);
+            //            var path1 = Path.Combine(Server.MapPath("~/Images/"), fname);
+              //         file.SaveAs(path1);     
+                    string folderName = WebConfigurationManager.AppSettings["taskItUploads"].ToString();
+                    var path = Path.Combine(folderName, fname);
                     file.SaveAs(path);
                     string sItemid = issueID.ToString();
                     string sDateTime = DateTime.Now.ToString();
@@ -175,8 +183,6 @@ namespace ClientPortal.Controllers
                     userPerson = Session["userId"].ToString();
                 }
                 userPersonID = int.Parse(userPerson);
-
-
                 tblFileAttachment fileAttachment = new tblFileAttachment();
                 fileAttachment.originalFileName = fileName;
                 fileAttachment.savedAsFileName = itemId.ToString() + " " + DateTime.Now.ToString("yyyyMMdd hhmmss ") + fileName;
@@ -185,8 +191,12 @@ namespace ClientPortal.Controllers
                 fileAttachment.createdDate = DateTime.Now;
                 fileAttachment.createdByID = userPersonID;
                 fileAttachment.Save();
+            
                 string folderName = WebConfigurationManager.AppSettings["taskItUploads"].ToString();
-                var path = Path.Combine(folderName, fileAttachment.savedAsFileName);
+                var path = Path.Combine(folderName, fileAttachment.originalFileName);
+
+          //      var path1 = Path.Combine(Server.MapPath("~/Images/"), fileAttachment.savedAsFileName);
+                
                 using (FileStream fs = new FileStream(path, FileMode.Create))
                 {
                     using (BinaryWriter bw = new BinaryWriter(fs))
@@ -633,7 +643,11 @@ namespace ClientPortal.Controllers
         {
             string fname;
             fname = postedFile.FileName;
-            var path = Path.Combine(Server.MapPath("~/taskItUploads/"), fname);
+              // var path1 = Path.Combine(Server.MapPath("~/Images/"), fname);
+             // postedFile.SaveAs(path1);
+            string folderName = WebConfigurationManager.AppSettings["taskItUploads"].ToString();
+            
+            var path = Path.Combine(folderName, fname);
             postedFile.SaveAs(path);
             string sItemid = issueID.ToString();
             string sDateTime = DateTime.Now.ToString();
@@ -761,6 +775,58 @@ namespace ClientPortal.Controllers
 
 
             }
+        }
+        public ActionResult fileDownload(int ID)
+        {
+             
+
+                string fileExtension = "";
+
+                FileStream fs;
+                String strPath = WebConfigurationManager.AppSettings["taskItUploads"].ToString();
+                String strFileName="";
+                var fileAttachments = pocoDb.Fetch<tblFileAttachment>(" where fileID = @0", ID).FirstOrDefault();
+                tblFileAttachment file = new tblFileAttachment();               
+                strFileName = fileAttachments.originalFileName;
+                fs = System.IO.File.Open(strPath + strFileName, FileMode.Open);
+                fileExtension = strFileName.Substring(strFileName.LastIndexOf(".")).ToLower();
+                fileExtension = fileExtension.Replace(".", "");
+                fileExtension = Path.GetExtension(strFileName).ToLower();
+                Byte[] bytBytes = new Byte[fs.Length];
+                fs.Read(bytBytes, 0, (Int32)fs.Length);
+                fs.Close();
+                string strHeader = "";
+
+                string strResponseContentType = "";
+
+                switch (fileExtension)
+                {
+                    case ".jpg":
+                        strHeader = "";
+                        strResponseContentType = "image/jpeg";
+                        break;
+                    case ".png":
+                        strHeader = "";
+                        strResponseContentType = "image/png";
+                        break;
+                    case ".gif":
+                        strHeader = "";
+                        strResponseContentType = "image/gif";
+                        break;
+                    default:
+                        strHeader = "attachment; filename=" + strFileName;
+                        strResponseContentType = "application/octet-stream";
+                        break;
+                }
+
+                if (strHeader != "") { Response.AddHeader("Content-disposition", strHeader); }
+                Response.ContentType = strResponseContentType;
+
+                Response.BinaryWrite(bytBytes);
+
+                Response.End();
+            return View();
+            
         }
     }
 

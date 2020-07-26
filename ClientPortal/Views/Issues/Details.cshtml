@@ -1,10 +1,8 @@
 ﻿@model ClientPortal.ViewModels.IssueDetailViewModel
-
 @{
     ViewBag.Title = "Details";
 
 }
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style>
     #idIssueList {
@@ -12,13 +10,10 @@
     }
 </style>
 <body>
-
     <div class="container">
         <h1>@Model.Issue.issueID @Model.Issue.issueTitle Status:[@Model.IssueStatus.ClientTitle]</h1>
         <hr />
         <div class="col-sm-8">
-
-
             @using (Html.BeginForm("AddNote", "Issues", FormMethod.Post))
             {
 
@@ -73,6 +68,9 @@
             {
                 <span>No Notes</span>
             }
+            <br/>
+            <br/>
+            <a href="/Issues/solutionIssues?ID=@Model.Issue.solutionId">Return To List</a>
         </div>
         <div class="col-sm-4">
 
@@ -84,8 +82,10 @@
                 {
                     foreach (var item in Model.Attachments)
                     {
-
-                        <a href="@Url.Content("~/taskItUploads/" + System.IO.Path.GetFileName(item.originalFileName))" target="_blank">@System.IO.Path.GetFileName(item.originalFileName)</a>
+                        @*
+                    <a href="@Url.Content("~/C:/taskItUploads/"+System.IO.Path.GetFileName(item.originalFileName))" target="_blank">@System.IO.Path.GetFileName(item.originalFileName)</a>
+                        *@
+                        <a href="/Issues/fileDownload?ID=@item.fileID" target="_blank">@System.IO.Path.GetFileName(item.originalFileName)</a>
                         <br />
 
                     }
@@ -121,18 +121,16 @@
                 {
                     <input type="button" id="btnReturn" value="Return to S7" />
                     <input type="button" id="btnMarkComplete" value="Mark complete" />
-
                 }
             </p>
             <p>Issue Created: @String.Format("{0:d MMM yyyy}", Model.Issue.CreatedDate)</p>
-
-
             <p>Last Modified</p>@Model.Issue.ModifiedDate
+            
         </div>
+        
     </div>
-
-    <br />
-    <a href="/Issues/solutionIssues?ID=@Model.Issue.solutionId">Return To List</a>
+    <br/>
+   
     <script>
             $(document).ready(function () {
                     $("#idAddIssue").hide();
@@ -173,8 +171,6 @@
                                 fileData.append(files[i].name, files[i]);
                             }
 
-
-
                             $.ajax({
                                 type: "POST",
                                 url: '/Issues/UploadFiles/?issueID=' + @Model.Issue.issueID,
@@ -195,8 +191,6 @@
                             alert("FormData is not supported.");
                         }
                     });
-
-
                     $("#btnReopenIssue").click(function () {
 
                     $.ajax({
@@ -205,8 +199,6 @@
 
                     });
                     });
-
-
                     $("#btnReturn").click(function () {
 
                     $.ajax({
@@ -228,13 +220,10 @@
                         success: function (response) {
                             $("#btnMarkComplete").hide();
                         }
-
                     });
                     });
 
             });
     </script>
-
-
 </body>
 
