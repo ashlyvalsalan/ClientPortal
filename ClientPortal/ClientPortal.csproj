@@ -313,6 +313,7 @@
     <Content Include="Views\Issues\cancelledIssues.cshtml" />
     <Content Include="Views\Home\SignInRemember.cshtml" />
     <Content Include="Views\Issues\fileDownload.cshtml" />
+    <Content Include="Views\Issues\uploadFilePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -73,38 +73,41 @@
             <a href="/Issues/solutionIssues?ID=@Model.Issue.solutionId">Return To List</a>
         </div>
         <div class="col-sm-4">
+            <div id="attachment">
 
-            <h4>
-                Attachments
-            </h4>
-            <p id="uploadedFiles">
-                @if (Model.Attachments.Any())
-                {
-                    foreach (var item in Model.Attachments)
+
+                <h4>
+                    Attachments
+                </h4>
+                <p id="uploadedFiles">
+                    @if (Model.Attachments.Any())
                     {
-                        @*
-                    <a href="@Url.Content("~/C:/taskItUploads/"+System.IO.Path.GetFileName(item.originalFileName))" target="_blank">@System.IO.Path.GetFileName(item.originalFileName)</a>
-                        *@
-                        <a href="/Issues/fileDownload?ID=@item.fileID" target="_blank">@System.IO.Path.GetFileName(item.originalFileName)</a>
+                        foreach (var item in Model.Attachments)
+                        {
+                            <a href="/Issues/fileDownload?ID=@item.fileID" target="_blank">@System.IO.Path.GetFileName(item.originalFileName)</a>
+                            <br />
+
+                        }
+                    }
+                    else
+                    {
+                        <span>No attachments</span>
+                    }
+                    <br />
+                    @using (Html.BeginForm("UploadFiles", "Issues", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.HiddenFor(m => m.Attachment.itemID, new { @Value = Model.Issue.issueID })
+                        <label for="file-upload" class="custom-file-upload">
+                            Upload New Attachments
+                        </label>
+                        <br />
+                        <td><input type="file" name="postedFile" /></td>
+                        <input type="submit" value="Upload Files" />
                         <br />
 
                     }
-                }
-                else
-                {
-                    <span>No attachments</span>
-                }
-                <br />
-                <label for="file-upload" id="" class="custom-file-upload">
-                    Upload New Attachments
-                </label>
-                <br />
-                <input type="file" id="FileUpload1" />
-                <input type="button" id="btnUpload" value="Upload Files" />
-                <br />
-                <label id="lblSuccess"></label>
-            </p>
-
+                </p>
+            </div>
             <br />
             <p>
                 @if (Convert.ToInt32(Model.Issue.issueStatusID) == 11)
@@ -134,7 +137,7 @@
     <script>
             $(document).ready(function () {
                     $("#idAddIssue").hide();
-                    $("#btnNewUpload").hide();
+                   
                     $("#idCancelledIssues").hide();
                     $(".issuelist-filter").change(function () {
                     var componentID = $('#componentID').val();
@@ -157,40 +160,7 @@
                     });
 
 
-                    $('#btnUpload').click(function () {
-
-
-                        if (window.FormData !== undefined) {
-
-                            var fileUpload = $("#FileUpload1").get(0);
-                            var files = fileUpload.files;
-                            var fileData = new FormData();
-
-
-                            for (var i = 0; i < files.length; i++) {
-                                fileData.append(files[i].name, files[i]);
-                            }
-
-                            $.ajax({
-                                type: "POST",
-                                url: '/Issues/UploadFiles/?issueID=' + @Model.Issue.issueID,
-
-                                contentType: false,
-                                processData: false,
-                                data: fileData,
-                                success: function (response) {
-                                    $("#FileUpload1").hide();
-                                    $("#btnUpload").hide();
-                                    $("#uploadedFiles").html(response);
-                                    $("btnNewUpload").show();
-                                }
-
-
-                            });
-                        } else {
-                            alert("FormData is not supported.");
-                        }
-                    });
+                 
                     $("#btnReopenIssue").click(function () {
 
                     $.ajax({

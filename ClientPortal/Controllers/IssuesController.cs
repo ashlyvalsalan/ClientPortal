@@ -97,7 +97,8 @@ namespace ClientPortal.Controllers
             // Get information for this issue
             var issue = pocoDb.Fetch<tblIssue>(" WHERE issueId = @0", id).FirstOrDefault();
             var issueStatus = pocoDb.Fetch<tblIssueStatus>("Where statusID=@0", issue.issueStatusID).FirstOrDefault();
-            var attachments = pocoDb.Fetch<tblFileAttachment>("Where objectTypeID=@0 and itemID=@1", 11, id);
+            var attachments = pocoDb.Fetch<tblFileAttachment>("Where objectTypeID=@0 and itemID=@1", 11, id).ToList();
+            //var attachment = attachments.FirstOrDefault();
             var notes = pocoDb.Fetch<tblNote>(" Where  objectTypeID = @0  and objectID = @1", 11, id).ToList();
 
             //person created the note
@@ -121,52 +122,31 @@ namespace ClientPortal.Controllers
 
         }
 
-        public ActionResult UploadFiles(int issueID)
+        public ActionResult UploadFiles(IssueDetailViewModel model, HttpPostedFileBase postedFile)
         {
-            int userPersonID = 0;
-
-            if (Request.Files.Count > 0)
+           
+            if(postedFile != null)
             {
-                string userPerson = "";
-                if (Session["userId"] != null)
-                {
-                    userPerson = Session["userId"].ToString();
-                }
-                HttpFileCollectionBase files = Request.Files;
-                for (int i = 0; i < files.Count; i++)
-                {
-                    HttpPostedFileBase file = files[i];
-                    string fname;
-                    fname = file.FileName;
-            //            var path1 = Path.Combine(Server.MapPath("~/Images/"), fname);
-              //         file.SaveAs(path1);     
-                    string folderName = WebConfigurationManager.AppSettings["taskItUploads"].ToString();
-                    var path = Path.Combine(folderName, fname);
-                    file.SaveAs(path);
-                    string sItemid = issueID.ToString();
-                    string sDateTime = DateTime.Now.ToString();
-                    string sIdDateTime = string.Concat(sItemid, sDateTime);
-                    if (ModelState.IsValid)
-                    {
-
-                        tblFileAttachment fileAttachment = new tblFileAttachment();
-                        fileAttachment.originalFileName = fname;
-                        fileAttachment.itemID = issueID;
-                        fileAttachment.createdDate = DateTime.Now;
-                        fileAttachment.objectTypeID = 11;
-                        fileAttachment.savedAsFileName = string.Concat(sIdDateTime, fname);
-                        pocoDb.Insert(fileAttachment);
-                        var tblAttachment = pocoDb.Fetch<tblFileAttachment>("Where objectTypeID=@0 and itemID=@1", 11, issueID);
-                        var VM = new ClientPortal.ViewModels.IssueListViewModel
-                        {
-                            Attachments = tblAttachment
-                        };
-                        return View(VM);
-                    }
-                }
-                return View("UploadFiles", "Issues");
+               
+                linkToTblattachment(model.Attachment.itemID, postedFile);
+                return RedirectToAction("Details", "Issues", new { id = model.Attachment.itemID });
             }
-            return View();
+            else
+            {
+                return RedirectToAction("Details", "Issues", new { id = model.Attachment.itemID });
+            }
+  
+           
+
+        }
+        public ActionResult uploadFilePartial(int ID)
+        {
+            var tblAttachment = pocoDb.Fetch<tblFileAttachment>("Where objectTypeID=@0 and itemID=@1", 11, ID);
+            var VM = new ClientPortal.ViewModels.IssueListViewModel
+            {
+                Attachments = tblAttachment
+            };
+            return View(VM);
         }
         [HttpPost]
         public JsonResult UploadImage(int itemId, int objectTypeId, string imageData)
@@ -182,6 +162,7 @@ namespace ClientPortal.Controllers
                 {
                     userPerson = Session["userId"].ToString();
                 }
+            
                 userPersonID = int.Parse(userPerson);
                 tblFileAttachment fileAttachment = new tblFileAttachment();
                 fileAttachment.originalFileName = fileName;
@@ -643,8 +624,7 @@ namespace ClientPortal.Controllers
         {
             string fname;
             fname = postedFile.FileName;
-              // var path1 = Path.Combine(Server.MapPath("~/Images/"), fname);
-             // postedFile.SaveAs(path1);
+              
             string folderName = WebConfigurationManager.AppSettings["taskItUploads"].ToString();
             
             var path = Path.Combine(folderName, fname);
@@ -659,7 +639,7 @@ namespace ClientPortal.Controllers
                 fileAttachment.itemID = issueID;
                 fileAttachment.createdDate = DateTime.Now;
                 fileAttachment.objectTypeID = 11;
-                fileAttachment.savedAsFileName = string.Concat(sIdDateTime, fname);;
+                fileAttachment.savedAsFileName = string.Concat(sIdDateTime, fname);
                 pocoDb.Insert(fileAttachment);
             }
         }

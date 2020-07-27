@@ -24,9 +24,11 @@
         th, td {
             padding: 15px;
         }
-        .conatiner{
-            
-        }       
+        div#comp{
+            position:static;
+            left:0px;
+            margin-left:0px;
+        }    
     </style>
     <nav>
 
@@ -98,15 +100,14 @@
     }
     else
     {
-        <apan>No Issues for Client</apan>
+        <br/>
+        <span>No Issues for Client</span>
     }
 
     <div class="tab">
         <h2>Search Issues</h2>
         <div class="container">
-
-            <div class="col-sm-8">
-
+            <div class="col-sm-8" id="comp">
                 <div class="col-sm-4">
                     @Html.DropDownListFor(x => Model.SelectedComponents, new SelectList(Model.Components, "componentID", "componentTitle", ""), "--select the Page--", htmlAttributes: new { @class ="form-control", id = "componentID" })
                 </div>
@@ -119,7 +120,6 @@
                 <button id="btnSearch">Search</button>
             </div>
         </div>
-
     </div>
     <div id="divList">
 

@@ -17,7 +17,9 @@ namespace ClientPortal.ViewModels
         public IEnumerable<tblNote> Notes { get; set; }
 
         public List<tblPerson> People { get; set; }
+        
         public IEnumerable<tblFileAttachment> Attachments { get; set; }
+        public tblFileAttachment Attachment { get; set; }
         public IEnumerable<tblPerson> Person { get; set; }
         public tblSolution Solutions { get; set; }
         public IEnumerable<tblIssueStatus> Statuses { get; set; }
