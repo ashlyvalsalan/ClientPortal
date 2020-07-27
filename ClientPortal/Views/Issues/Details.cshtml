@@ -101,9 +101,10 @@
                             Upload New Attachments
                         </label>
                         <br />
-                        <td><input type="file" name="postedFile" /></td>
-                        <input type="submit" value="Upload Files" />
-                        <br />
+                        <td><input type="file" id="fileInput"name="postedFile" /></td>
+                        <br/>
+                        <input type="submit" id="btnUpload" value="Upload Files" />
+                       
 
                     }
                 </p>
@@ -116,13 +117,18 @@
                 }
                 else if (Convert.ToInt32(Model.Issue.issueStatusID) == 13)
                 {
-
+                    <br />
                     <input type="button" id="btnReturn" value="Return to S7" />
+                    <br />
+                    <br />
                     <input type="button" id="btnMarkComplete" value="Mark complete" />
                 }
                 else if (Convert.ToInt32(Model.Issue.issueStatusID) == 14)
                 {
+                    <br />
                     <input type="button" id="btnReturn" value="Return to S7" />
+                    <br />
+                    <br />
                     <input type="button" id="btnMarkComplete" value="Mark complete" />
                 }
             </p>
@@ -136,9 +142,8 @@
    
     <script>
             $(document).ready(function () {
-                    $("#idAddIssue").hide();
-                   
-                    $("#idCancelledIssues").hide();
+                $("#idAddIssue").hide();              
+                $("#idCancelledIssues").hide();              
                     $(".issuelist-filter").change(function () {
                     var componentID = $('#componentID').val();
                     var statusID = $('#statusID').val();

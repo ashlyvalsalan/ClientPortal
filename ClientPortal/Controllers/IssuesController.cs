@@ -94,14 +94,11 @@ namespace ClientPortal.Controllers
         public ActionResult Details(int? id)
         {
 
-            // Get information for this issue
+           
             var issue = pocoDb.Fetch<tblIssue>(" WHERE issueId = @0", id).FirstOrDefault();
             var issueStatus = pocoDb.Fetch<tblIssueStatus>("Where statusID=@0", issue.issueStatusID).FirstOrDefault();
             var attachments = pocoDb.Fetch<tblFileAttachment>("Where objectTypeID=@0 and itemID=@1", 11, id).ToList();
-            //var attachment = attachments.FirstOrDefault();
             var notes = pocoDb.Fetch<tblNote>(" Where  objectTypeID = @0  and objectID = @1", 11, id).ToList();
-
-            //person created the note
             var pids = notes.Select(x => x.createdByID).ToList();
             List<tblPerson> personlist = null;
             if (pids.Any() == true)
@@ -123,8 +120,7 @@ namespace ClientPortal.Controllers
         }
 
         public ActionResult UploadFiles(IssueDetailViewModel model, HttpPostedFileBase postedFile)
-        {
-           
+        {          
             if(postedFile != null)
             {
                
@@ -135,9 +131,6 @@ namespace ClientPortal.Controllers
             {
                 return RedirectToAction("Details", "Issues", new { id = model.Attachment.itemID });
             }
-  
-           
-
         }
         public ActionResult uploadFilePartial(int ID)
         {
@@ -174,10 +167,7 @@ namespace ClientPortal.Controllers
                 fileAttachment.Save();
             
                 string folderName = WebConfigurationManager.AppSettings["taskItUploads"].ToString();
-                var path = Path.Combine(folderName, fileAttachment.originalFileName);
-
-          //      var path1 = Path.Combine(Server.MapPath("~/Images/"), fileAttachment.savedAsFileName);
-                
+                var path = Path.Combine(folderName, fileAttachment.originalFileName);               
                 using (FileStream fs = new FileStream(path, FileMode.Create))
                 {
                     using (BinaryWriter bw = new BinaryWriter(fs))
@@ -291,17 +281,7 @@ namespace ClientPortal.Controllers
             {
                 if(checkbox ==false || checkbox==true)
                 {
-                    List<int> clientStatusExceptClosed = new List<int>();
-
-                    clientStatusExceptClosed.Add(1);
-                    clientStatusExceptClosed.Add(4);
-                    clientStatusExceptClosed.Add(10);
-                    clientStatusExceptClosed.Add(12);
-                    clientStatusExceptClosed.Add(13);
-                    clientStatusExceptClosed.Add(14);
-                    clientStatusExceptClosed.Add(15);
-                    clientStatusExceptClosed.Add(16);
-                    clientStatusExceptClosed.Add(17);
+                    List<int> clientStatusExceptClosed = new List<int>() { 1, 4, 10, 12, 13, 14, 15, 16, 17 };
                     var clientIssuesExceptClosed = pocoDb.Fetch<tblIssue>("Where issueStatusID IN(@0) and solutionId=@1", clientStatusExceptClosed, solutionID);
                     var tblType = pocoDb.Fetch<tblIssueType>("where 1=1").ToList();
                     var tblstatus = pocoDb.Fetch<tblIssueStatus>("where 1=1").ToList();
@@ -313,26 +293,14 @@ namespace ClientPortal.Controllers
 
                     };
                     return PartialView(VMComponent);
-                }
-                
-                
+                }                             
             }
 
             else
             {
                 if (checkbox == false)
                 {
-                    List<int> clientStatusExceptClosed = new List<int>();
-
-                    clientStatusExceptClosed.Add(1);
-                    clientStatusExceptClosed.Add(4);
-                    clientStatusExceptClosed.Add(10);
-                    clientStatusExceptClosed.Add(12);
-                    clientStatusExceptClosed.Add(13);
-                    clientStatusExceptClosed.Add(14);
-                    clientStatusExceptClosed.Add(15);
-                    clientStatusExceptClosed.Add(16);
-                    clientStatusExceptClosed.Add(17);
+                    List<int> clientStatusExceptClosed = new List<int>() { 1, 4, 10, 12, 13, 14, 15, 16, 17 };
                     var clientIssuesExceptClosed = pocoDb.Fetch<tblIssue>("Where issueStatusID IN(@0) and solutionId=@1 and solutionComponentID=@2", clientStatusExceptClosed, solutionID, componentID);
                     var tblType = pocoDb.Fetch<tblIssueType>("where 1=1").ToList();
                     var tblstatus = pocoDb.Fetch<tblIssueStatus>("where 1=1").ToList();
@@ -349,19 +317,7 @@ namespace ClientPortal.Controllers
                 else
                 {
 
-                    List<int> clientStatusincludingClosed = new List<int>();
-
-                    clientStatusincludingClosed.Add(1);
-                    clientStatusincludingClosed.Add(4);
-                    clientStatusincludingClosed.Add(9);
-                    clientStatusincludingClosed.Add(10);
-                    clientStatusincludingClosed.Add(11);
-                    clientStatusincludingClosed.Add(12);
-                    clientStatusincludingClosed.Add(13);
-                    clientStatusincludingClosed.Add(14);
-                    clientStatusincludingClosed.Add(15);
-                    clientStatusincludingClosed.Add(16);
-                    clientStatusincludingClosed.Add(17);
+                    List<int> clientStatusincludingClosed = new List<int>() { 1, 4,9, 10,11, 12, 13, 14, 15, 16, 17 };
                     var clientIssue = pocoDb.Fetch<tblIssue>("Where issueStatusID IN(@0) and solutionId=@1 and solutionComponentID=@2", clientStatusincludingClosed, solutionID, componentID);
                     var tblType = pocoDb.Fetch<tblIssueType>("where 1=1").ToList();
                     var tblstatus = pocoDb.Fetch<tblIssueStatus>("where 1=1").ToList();
@@ -413,20 +369,10 @@ namespace ClientPortal.Controllers
             var Types = pocoDb.Fetch<tblIssueType>("where 1=1").ToList();
             var statuses = pocoDb.Fetch<tblIssueStatus>("where 1=1");
             var tblComponent = pocoDb.Fetch<tblSolutionComponent>("where solutionID=@0", ID).ToList();
-            List<int> clientStatusId = new List<int>();
-            clientStatusId.Add(13);
-            clientStatusId.Add(14);
+            List<int> clientStatusId = new List<int>() {13,14};          
             var clientIssues = pocoDb.Fetch<tblIssue>("Where issueStatusID IN(@0) and solutionId=@1", clientStatusId, ID);
-            List<int> clientStatusExceptClosed = new List<int>();
-            clientStatusExceptClosed.Add(1);
-            clientStatusExceptClosed.Add(4);
-            clientStatusExceptClosed.Add(10);
-            clientStatusExceptClosed.Add(12);
-            clientStatusExceptClosed.Add(13);
-            clientStatusExceptClosed.Add(14);
-            clientStatusExceptClosed.Add(15);
-            clientStatusExceptClosed.Add(16);
-            clientStatusExceptClosed.Add(17);
+            List<int> clientStatusExceptClosed = new List<int>() { 1, 4, 10, 12, 13, 14, 15, 16, 17 };
+      
             var clientIssuesExceptClosed = pocoDb.Fetch<tblIssue>("Where issueStatusID IN(@0) and solutionId=@1", clientStatusExceptClosed, ID);
             var tblstatusClientTitle = pocoDb.Fetch<tblIssueStatus>("where 1=1").DistinctBy(m => m.ClientTitle);
             ViewBag.ClientTitle = new SelectList(tblstatusClientTitle, "ClientTitle", "ClientTitle");
@@ -595,8 +541,6 @@ namespace ClientPortal.Controllers
                         screenattachments.itemID = issueId;
                         pocoDb.Update(screenattachments);
                     }
-                    
-
                     if (button == "Save")
                     {
                         return RedirectToAction("solutionIssues", "Issues", new { ID = model.Issue.solutionId });
@@ -611,8 +555,6 @@ namespace ClientPortal.Controllers
                         return RedirectToAction("Index", "Issues");
 
                     }
-
-
                 }
             }
             catch (Exception ex)
@@ -658,8 +600,6 @@ namespace ClientPortal.Controllers
                 Response.Redirect("/Issue/solutionIssues");
                 
             }
-
-
             String projectUrl = Convert.ToString(Request.QueryString["projectUrl"]);
             String url = Convert.ToString(Request.QueryString["url"]);
             if (String.IsNullOrEmpty(projectUrl)) { projectUrl = url; }
@@ -745,7 +685,6 @@ namespace ClientPortal.Controllers
                 return compId;
             }
         }
-
         public void addNewComponent(String Url, int solutionId)
         {
             if (ModelState.IsValid)
@@ -757,14 +696,10 @@ namespace ClientPortal.Controllers
                 solutionComponent.solutionID = solutionId;
                 solutionComponent.CreatedDate = DateTime.Now;
                 pocoDb.Insert(solutionComponent);
-
-
             }
         }
         public ActionResult fileDownload(int ID)
         {
-             
-
                 string fileExtension = "";
 
                 FileStream fs;
@@ -812,6 +747,32 @@ namespace ClientPortal.Controllers
                 Response.End();
             return View();
             
+        }
+        public ActionResult Tasks()
+        {
+            string userid = "";
+            if (Session["userId"] != null)
+            {
+                userid = Session["userId"].ToString();
+            }
+            int userID = int.Parse(userid);
+            var person = pocodb.Fetch<tblUser>("where userID=@0", userID).FirstOrDefault();
+           var user= person.
+
+            List<int> activeStatusID= new List<int>() {1,2,3,5,6,17,19,20,21};
+            var tasksActive = pocoDb.Fetch<tblTask>("Where taskStatusID IN(@0) and CompanyID=@1", activeStatusID, userID).OrderByDescending(m=>m.CreatedDate);
+
+            List<int> closedStatusID = new List<int>() { 7, 16 };
+            var closedTasks = pocoDb.Fetch<tblTask>("Where closedDate IS NOT NULL and taskStatusID IN(@0)", closedStatusID);
+            var topTenTasks= closedTasks.OrderByDescending(m => m.ClosedDate).Take(10);
+            var VM = new ClientPortal.ViewModels.TasksViewModel
+            {
+             Tasks= tasksActive,
+             closedTasks= topTenTasks
+            };
+            return View(VM);
+
+           
         }
     }
 

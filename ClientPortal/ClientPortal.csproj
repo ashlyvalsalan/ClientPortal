@@ -151,6 +151,7 @@
     <Compile Include="ViewModels\IssueDetailViewModel.cs" />
     <Compile Include="ViewModels\IssueListViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\TasksViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bin\Antlr3.Runtime.dll" />
@@ -314,6 +315,7 @@
     <Content Include="Views\Home\SignInRemember.cshtml" />
     <Content Include="Views\Issues\fileDownload.cshtml" />
     <Content Include="Views\Issues\uploadFilePartial.cshtml" />
+    <Content Include="Views\Issues\Tasks.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

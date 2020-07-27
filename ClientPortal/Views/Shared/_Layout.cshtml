@@ -31,16 +31,18 @@
                 <img src="~/Images/logo2.png" />
                 <br />
                 <ul class="nav navbar-nav js-nav-add-active-class">
-                    @if (solutionID ==0)
+                    @if (solutionID == 0)
                     {
                         solutionID = 92;
                         <li class="active" id="idIssueList"><a href="/Issues/solutionIssues?ID=@solutionID">Issue List</a></li>
+                        <li class="active" id="idAllTasks"><a href="/Issues/Tasks">Tasks</a></li>
                     }
                     else if (solutionID != 0 && solutionID > 0)
                     {
                         <li class="active" id="idIssueList"><a href="/Issues/solutionIssues?ID=@solutionID">Issue List</a></li>
                         <li class="active" id="idAddIssue"><a href="/Issues/CreateIssue?solutionID=@solutionID">Add Issue</a></li>
                         <li class="active" id="idCancelledIssues"><a href="/Issues/cancelledIssues?solutionID=@solutionID">Recently Closed Issues</a></li>
+                        <li class="active" id="idAllTasks"><a href="/Issues/Tasks">Tasks</a></li>
                     }
                 </ul>
 

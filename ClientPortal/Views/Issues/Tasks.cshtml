@@ -1,0 +1,135 @@
+﻿
+@model ClientPortal.ViewModels.TasksViewModel
+
+@{
+    ViewBag.Title = "Index";
+    if (Session["userId"] == null)
+    {
+        Response.Redirect("~/Home/Login");
+    }
+}
+<script scr="~/Scripts/jquery-3.4.1.min.js"></script>
+
+<body>
+
+    <div class="tab">
+        <h2>Active Tasks</h2>
+    </div>
+
+    
+           @if (@Model.Tasks.Count() != 0)
+        {
+            <div id="divissueClient">
+
+                <table class="table" id="idTable">
+
+                    <tr>
+                        <th>
+
+                            ID
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Created Date
+                        </th>
+
+
+                    </tr>
+                    <br />
+                    @foreach (var item in Model.Tasks)
+                    {
+
+                        <tr>
+                            <div class="issue-link">
+                                <td>
+                                    @Html.ActionLink(item.TaskID.ToString(), "Tasks", "Issues", new { id = item.TaskID }, null)
+
+                                </td>
+                                <td>
+                                    @Html.ActionLink(item.TaskDescription,"Tasks","Issues",new { id=item.TaskID},null)
+
+                                </td>
+                            </div>
+
+                            <td>
+                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", @item.CreatedDate))
+                            </td>
+
+
+                        </tr>
+                    }
+
+                </table>
+
+            </div>
+        }
+        else
+        {
+            <br />
+            <span>No Active Tasks</span>
+        }
+
+    
+
+    <div class="tab">
+        <h2>Recently Closed Tasks</h2>
+    </div>
+    @if (@Model.Tasks.Count() != 0)
+    {
+        <div id="divissueClient">
+
+            <table class="table" id="idTable">
+
+                <tr>
+                    <th>
+
+                        ID
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                    <th>
+                        Closed Date
+                    </th>
+
+
+                </tr>
+                <br />
+                @foreach (var item in Model.closedTasks)
+                {
+
+                    <tr>
+                        <div class="issue-link">
+                            <td>
+                                @Html.ActionLink(item.TaskID.ToString(), "Tasks", "Issues", new { id = item.TaskID }, null)
+
+                            </td>
+                            <td>
+                                @Html.ActionLink(item.TaskDescription, "Tasks", "Issues", new { id = item.TaskID }, null)
+
+                            </td>
+                        </div>
+
+                        <td>
+                            @Convert.ToString(string.Format("{0:dd/MM/yyyy}", @item.ClosedDate))
+                        </td>
+
+
+                    </tr>
+                }
+
+            </table>
+
+        </div>
+    }
+    else
+    {
+        <br />
+        <span>No Active Tasks</span>
+    }
+</body>
+
+
+

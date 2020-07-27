@@ -15,9 +15,7 @@ namespace ClientPortal.ViewModels
         public tblIssueStatus IssueStatus { get; set; }
         public string SelectedNotes { get; set; }
         public IEnumerable<tblNote> Notes { get; set; }
-
         public List<tblPerson> People { get; set; }
-        
         public IEnumerable<tblFileAttachment> Attachments { get; set; }
         public tblFileAttachment Attachment { get; set; }
         public IEnumerable<tblPerson> Person { get; set; }
@@ -30,4 +28,4 @@ namespace ClientPortal.ViewModels
 
 
     }
-}
+} 
