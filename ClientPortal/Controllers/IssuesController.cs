@@ -287,32 +287,35 @@ namespace ClientPortal.Controllers
         public ActionResult filterStatus(int componentID, int solutionID, Boolean checkbox)
         {
 
-            if (componentID == 0 && checkbox == false)
+            if (componentID == 0 )
             {
-                List<int> clientStatusExceptClosed = new List<int>();
-
-                clientStatusExceptClosed.Add(1);
-                clientStatusExceptClosed.Add(4);
-                clientStatusExceptClosed.Add(10);
-                clientStatusExceptClosed.Add(12);
-                clientStatusExceptClosed.Add(13);
-                clientStatusExceptClosed.Add(14);
-                clientStatusExceptClosed.Add(15);
-                clientStatusExceptClosed.Add(16);
-                clientStatusExceptClosed.Add(17);
-                var clientIssuesExceptClosed = pocoDb.Fetch<tblIssue>("Where issueStatusID IN(@0) and solutionId=@1", clientStatusExceptClosed, solutionID);
-                var tblType = pocoDb.Fetch<tblIssueType>("where 1=1").ToList();
-                var tblstatus = pocoDb.Fetch<tblIssueStatus>("where 1=1").ToList();
-                var VMComponent = new ClientPortal.ViewModels.IssueListViewModel
+                if(checkbox ==false || checkbox==true)
                 {
-                    Issues = clientIssuesExceptClosed,
-                    Statuses = tblstatus,
-                    Types = tblType
+                    List<int> clientStatusExceptClosed = new List<int>();
 
-                };
+                    clientStatusExceptClosed.Add(1);
+                    clientStatusExceptClosed.Add(4);
+                    clientStatusExceptClosed.Add(10);
+                    clientStatusExceptClosed.Add(12);
+                    clientStatusExceptClosed.Add(13);
+                    clientStatusExceptClosed.Add(14);
+                    clientStatusExceptClosed.Add(15);
+                    clientStatusExceptClosed.Add(16);
+                    clientStatusExceptClosed.Add(17);
+                    var clientIssuesExceptClosed = pocoDb.Fetch<tblIssue>("Where issueStatusID IN(@0) and solutionId=@1", clientStatusExceptClosed, solutionID);
+                    var tblType = pocoDb.Fetch<tblIssueType>("where 1=1").ToList();
+                    var tblstatus = pocoDb.Fetch<tblIssueStatus>("where 1=1").ToList();
+                    var VMComponent = new ClientPortal.ViewModels.IssueListViewModel
+                    {
+                        Issues = clientIssuesExceptClosed,
+                        Statuses = tblstatus,
+                        Types = tblType
 
-                return PartialView(VMComponent);
-
+                    };
+                    return PartialView(VMComponent);
+                }
+                
+                
             }
 
             else
@@ -346,25 +349,25 @@ namespace ClientPortal.Controllers
                 else
                 {
 
-                    List<int> clientStatusExceptClosed = new List<int>();
+                    List<int> clientStatusincludingClosed = new List<int>();
 
-                    clientStatusExceptClosed.Add(1);
-                    clientStatusExceptClosed.Add(4);
-                    clientStatusExceptClosed.Add(9);
-                    clientStatusExceptClosed.Add(10);
-                    clientStatusExceptClosed.Add(11);
-                    clientStatusExceptClosed.Add(12);
-                    clientStatusExceptClosed.Add(13);
-                    clientStatusExceptClosed.Add(14);
-                    clientStatusExceptClosed.Add(15);
-                    clientStatusExceptClosed.Add(16);
-                    clientStatusExceptClosed.Add(17);
-                    var clientIssuesExceptClosed = pocoDb.Fetch<tblIssue>("Where issueStatusID IN(@0) and solutionId=@1 and solutionComponentID=@2", clientStatusExceptClosed, solutionID, componentID);
+                    clientStatusincludingClosed.Add(1);
+                    clientStatusincludingClosed.Add(4);
+                    clientStatusincludingClosed.Add(9);
+                    clientStatusincludingClosed.Add(10);
+                    clientStatusincludingClosed.Add(11);
+                    clientStatusincludingClosed.Add(12);
+                    clientStatusincludingClosed.Add(13);
+                    clientStatusincludingClosed.Add(14);
+                    clientStatusincludingClosed.Add(15);
+                    clientStatusincludingClosed.Add(16);
+                    clientStatusincludingClosed.Add(17);
+                    var clientIssue = pocoDb.Fetch<tblIssue>("Where issueStatusID IN(@0) and solutionId=@1 and solutionComponentID=@2", clientStatusincludingClosed, solutionID, componentID);
                     var tblType = pocoDb.Fetch<tblIssueType>("where 1=1").ToList();
                     var tblstatus = pocoDb.Fetch<tblIssueStatus>("where 1=1").ToList();
                     var VMComponent = new ClientPortal.ViewModels.IssueListViewModel
                     {
-                        Issues = clientIssuesExceptClosed,
+                        Issues = clientIssue,
                         Statuses = tblstatus,
                         Types = tblType
 
@@ -372,7 +375,9 @@ namespace ClientPortal.Controllers
 
                     return PartialView(VMComponent);
                 }
+               
             }
+            return View();
         }
 
         public ActionResult cancelledIssues(int solutionID)
