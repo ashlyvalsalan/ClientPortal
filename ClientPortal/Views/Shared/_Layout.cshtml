@@ -7,7 +7,7 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>*@
     <link href="~/Styles/layoutStylesheet.css" rel="stylesheet" />
 </head>
 @{ 
@@ -35,14 +35,14 @@
                     {
                         solutionID = 92;
                         <li class="active" id="idIssueList"><a href="/Issues/solutionIssues?ID=@solutionID">Issue List</a></li>
-                        <li class="active" id="idAllTasks"><a href="/Issues/Tasks">Tasks</a></li>
+                        <li class="active" id="idAllTasks"><a href="/Task/displayTasks">Tasks</a></li>
                     }
                     else if (solutionID != 0 && solutionID > 0)
                     {
                         <li class="active" id="idIssueList"><a href="/Issues/solutionIssues?ID=@solutionID">Issue List</a></li>
                         <li class="active" id="idAddIssue"><a href="/Issues/CreateIssue?solutionID=@solutionID">Add Issue</a></li>
                         <li class="active" id="idCancelledIssues"><a href="/Issues/cancelledIssues?solutionID=@solutionID">Recently Closed Issues</a></li>
-                        <li class="active" id="idAllTasks"><a href="/Issues/Tasks">Tasks</a></li>
+                        <li class="active" id="idAllTasks"><a href="/Task/displayTasks">Tasks</a></li>
                     }
                 </ul>
 

@@ -748,32 +748,8 @@ namespace ClientPortal.Controllers
             return View();
             
         }
-        public ActionResult Tasks()
-        {
-            string userid = "";
-            if (Session["userId"] != null)
-            {
-                userid = Session["userId"].ToString();
-            }
-            int userID = int.Parse(userid);
-            var person = pocodb.Fetch<tblUser>("where userID=@0", userID).FirstOrDefault();
-           var user= person.
+        
 
-            List<int> activeStatusID= new List<int>() {1,2,3,5,6,17,19,20,21};
-            var tasksActive = pocoDb.Fetch<tblTask>("Where taskStatusID IN(@0) and CompanyID=@1", activeStatusID, userID).OrderByDescending(m=>m.CreatedDate);
-
-            List<int> closedStatusID = new List<int>() { 7, 16 };
-            var closedTasks = pocoDb.Fetch<tblTask>("Where closedDate IS NOT NULL and taskStatusID IN(@0)", closedStatusID);
-            var topTenTasks= closedTasks.OrderByDescending(m => m.ClosedDate).Take(10);
-            var VM = new ClientPortal.ViewModels.TasksViewModel
-            {
-             Tasks= tasksActive,
-             closedTasks= topTenTasks
-            };
-            return View(VM);
-
-           
-        }
     }
 
 }

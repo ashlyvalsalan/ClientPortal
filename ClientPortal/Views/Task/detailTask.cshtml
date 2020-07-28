@@ -1,0 +1,188 @@
+﻿
+@model ClientPortal.ViewModels.TasksViewModel
+@{
+    ViewBag.Title = "Details";
+    
+
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<style>
+    #idIssueList {
+        list-style-type: none;
+    }
+</style>
+<body>
+    <div id="loadNotesList">
+        <div class="container" id="loadTasks">
+            @*
+            <h1>@Model.Issue.issueID @Model.Issue.issueTitle Status:[@Model.IssueStatus.ClientTitle]</h1>
+            *@
+            <hr />
+            <div class="col-sm-8">
+                @using (Html.BeginForm("AddNote", "Task", FormMethod.Post))
+                {
+                    @Html.HiddenFor(m => m.Note.objectID, new { @Value = Model.Task.TaskID })
+                    <h4>Add Comments</h4>
+                    @Html.TextAreaFor(m => m.Note.noteText, new { @class = "form-control" })
+                    <br />
+                    <input type="submit" id="addComments" value="Add" />
+                    <br />
+                }
+
+                @if (Model.Notes.Count() != 0)
+                {
+                    <table class="table">
+                        <tr>
+                            <th>Date</th>
+                            <th>Note</th>
+                            <th>By</th>
+                        </tr>
+
+                        @foreach (var item in Model.Notes)
+                        {
+                            var person = Model.People.FirstOrDefault(x => x.PersonID == item.createdByID);
+
+                            <tr>
+                                <td>
+                                    @Convert.ToString(string.Format("{0:dd/MM/yyyy}", item.createdDate))
+                                </td>
+                                <td>
+                                    <div class="showmore">
+                                        <div class="moreblock">
+
+                                            @{
+                                                var array = item.noteText.Split('<');
+                                            }
+                                            @person.FirstName @person.LastName:
+
+                                            @Html.Raw(item.noteText)
+                                            @Html.Raw(item.noteText)
+                                            <br />
+
+
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    @person.FirstName @person.LastName
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <span>No Notes</span>
+                }
+
+                <a href="/Task/displayTasks">Return To TaskList</a>
+            </div>
+            <div class="col-sm-4">
+
+                <div class="row">
+                    <h4>Status</h4>
+                    <p>@Model.Status.taskStatusName</p>
+                </div>
+
+                <div class="row">
+                    <h4>Created Date:</h4>
+
+
+                    <p>@Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model.Task.CreatedDate)) by @Model.Person.FirstName</p>
+
+                    <h4>Last Edit Date:</h4>
+                    <p>@Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model.Task.LastEditDate)) </p>
+                </div>
+
+                <div class="row">
+                    <h4>Client:</h4>
+                    <p>@Model.Company.CompanyName </p>
+                    <p>@Model.Client.FirstName @Model.Client.LastName</p>
+                    <p>@Model.Client.MobilePhone</p>
+                    <p>@Model.Client.EmailAddress</p>
+
+                </div>
+                <div class="row">
+                    <h4>Attachments:</h4>
+                    @using (Html.BeginForm("UploadFiles", "Task", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {
+                        @Html.HiddenFor(m => m.Attachment.itemID, new { @Value = Model.Task.TaskID })
+
+                        <td><input type="file" id="fileInput" name="postedFile" /></td>
+                        <br />
+                        <input type="submit" id="btnUpload" value="Upload Files" />
+                    }
+
+                </div>
+                <div class="row">
+                    <h4>Estimate:</h4>
+                    @if(Model.Estimate!=null)
+                    {
+                        <a href="#">View Estimate</a>
+                    }
+                    else
+                    {
+                        <p>No estimate</p>
+                        <a href="#">Create New Estimate</a>
+                    }
+
+                </div>
+
+
+            </div>
+            @*
+                <div class="col-sm-4">
+                <h4>Created Date:</h4>
+                <p>@Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model.Task.CreatedDate)) </p>
+
+                <h4>Last Edit Date:</h4>
+                <p>@Convert.ToString(string.Format("{0:dd/MM/yyyy}", Model.Task.LastEditDate)) </p>
+
+            </div>
+            *@
+        </div>
+
+        <br />
+    </div>
+    <script>
+        $(document).ready(function () {
+            showMore('#loadTasks');
+       
+
+
+
+        });
+
+        function showMore(location) {
+            var adjustheight = 205;
+            var moreText = "+ More";
+            var lessText = "- Less";
+
+            $(location + " .showmore .moreblock").each(function () {
+
+                if ($(this).height() > adjustheight) {
+                    $(this).css('height', adjustheight).css('overflow', 'hidden');
+                    $(this).parent(".showmore").append('<a href="#" class="adjust"></a>');
+                    $(this).parent(".showmore").find("a.adjust").text(moreText);
+
+                    $(this).parent(".showmore").find(".adjust").toggle(function () {
+                        //$(this).parents("div:first").find(".moreblock").css('height', 'auto').css('overflow', 'visible');
+                        $(this).parents("div:first").find(".moreblock").animate({ height: $(this).parents("div:first").find(".moreblock").get(0).scrollHeight }, 500);
+                        $(this).parents("div:first").find("a.adjust").css('display', 'none');
+                        $(this).text(lessText);
+                    }, function () {
+                        $(this).parents("div:first").find(".moreblock").animate({ height: adjustheight }, 500);
+                            $(this).parents("div:first").find("a.adjust").css('display', 'block');
+                        $(this).text(moreText);
+                    });
+                }
+            });
+        }
+    </script>
+<style>
+    div.showmore a.adjust {
+        margin-left: 31px;
+    }
+</style>
+</body>
+

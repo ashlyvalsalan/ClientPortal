@@ -130,6 +130,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IssuesController.cs" />
+    <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -315,7 +316,9 @@
     <Content Include="Views\Home\SignInRemember.cshtml" />
     <Content Include="Views\Issues\fileDownload.cshtml" />
     <Content Include="Views\Issues\uploadFilePartial.cshtml" />
-    <Content Include="Views\Issues\Tasks.cshtml" />
+    <Content Include="Views\Task\displayTasks.cshtml" />
+    <Content Include="Views\Task\detailTask.cshtml" />
+    <Content Include="Views\Task\noteList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

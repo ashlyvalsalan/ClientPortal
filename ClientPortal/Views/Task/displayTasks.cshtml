@@ -44,17 +44,17 @@
                         <tr>
                             <div class="issue-link">
                                 <td>
-                                    @Html.ActionLink(item.TaskID.ToString(), "Tasks", "Issues", new { id = item.TaskID }, null)
+                                    @Html.ActionLink(item.TaskID.ToString(), "detailTask", "Task", new { id = item.TaskID }, null)
 
                                 </td>
                                 <td>
-                                    @Html.ActionLink(item.TaskDescription,"Tasks","Issues",new { id=item.TaskID},null)
+                                    @Html.ActionLink(item.TaskDescription, "detailTask", "Task",new { id=item.TaskID},null)
 
                                 </td>
                             </div>
 
                             <td>
-                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", @item.CreatedDate))
+                                @Convert.ToString(string.Format("{0:dd/MM/yyyy}", @item.CreatedDate)) 
                             </td>
 
 
@@ -103,11 +103,11 @@
                     <tr>
                         <div class="issue-link">
                             <td>
-                                @Html.ActionLink(item.TaskID.ToString(), "Tasks", "Issues", new { id = item.TaskID }, null)
+                                @Html.ActionLink(item.TaskID.ToString(), "detailTask", "Task", new { id = item.TaskID }, null)
 
                             </td>
                             <td>
-                                @Html.ActionLink(item.TaskDescription, "Tasks", "Issues", new { id = item.TaskID }, null)
+                                @Html.ActionLink(item.TaskDescription, "detailTask", "Task", new { id = item.TaskID }, null)
 
                             </td>
                         </div>
