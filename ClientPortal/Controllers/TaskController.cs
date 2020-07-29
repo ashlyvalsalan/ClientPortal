@@ -50,7 +50,7 @@ namespace ClientPortal.Controllers
             var person = pocoDb.Fetch<tblPerson>("where PersonID=@0", task.createdByID).FirstOrDefault();
             var company = pocoDb.Fetch<tblCompany>("Where CompanyID=@0", task.CompanyID).FirstOrDefault();
             var client = pocoDb.Fetch<tblPerson>("Where PersonID=@0",company.ContactID).FirstOrDefault();
-            var estimate = pocoDb.Fetch<tblEstimate>("Where EstimateID IS NOT NULL and EstimateID=@0", task.estimateID).FirstOrDefault();                         
+            var estimate = pocoDb.FirstOrDefault<tblEstimate>("Where EstimateID IS NOT NULL and estimateID=@0",task.estimateID);                         
             List<tblPerson> personlist = null;
             if (pids.Any() == true)
             {
@@ -140,5 +140,6 @@ namespace ClientPortal.Controllers
                 pocoDb.Insert(fileAttachment);
             }
         }
+       
     }
 }

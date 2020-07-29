@@ -19,7 +19,7 @@ namespace ClientPortal.ViewModels
         
         public string SelectedNotes { get; set; }
         public IEnumerable<tblNote> Notes { get; set; }
- 
+
         public string Selectedstatus { get; set; }
         public IEnumerable<tblIssueStatus> Statuses { get; set; }
         public string Selectedtypes { get; set; }
